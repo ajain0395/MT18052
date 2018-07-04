@@ -1,0 +1,87 @@
+Create a new repository on GitHub. To avoid errors, do not initialize the new repository with README, license, or gitignore files. You can add these files after your project has been pushed to GitHub.
+Open Terminal.
+
+Change the current working directory to your local project.
+
+Initialize the local directory as a Git repository.
+
+$ git init
+Add the files in your new local repository. This stages them for the first commit.
+
+$ git add .
+# Adds the files in the local repository and stages them for commit. To unstage a file, use 'git reset HEAD YOUR-FILE'.
+Commit the files that you've staged in your local repository.
+
+$ git commit -m "First commit"
+# Commits the tracked changes and prepares them to be pushed to a remote repository. To remove this commit and modify the file, use 'git reset --soft HEAD~1' and commit and add the file again.
+Copy remote repository URL fieldAt the top of your GitHub repository's Quick Setup page, click  to copy the remote repository URL.
+
+In Terminal, add the URL for the remote repository where your local repository will be pushed.
+
+$ git remote add origin remote repository URL
+# Sets the new remote
+$ git remote -v
+# Verifies the new remote URL
+Push the changes in your local repository to GitHub.
+
+$ git push origin master
+# Pushes the changes in your local repository up to the remote repository you specified as the origin
+
+
+#######################################################################################################################
+
+
+Setup Github
+When you have a github-account, you may install Github. Before installing Github, you need to set up the ssh keys. This manual will also guide you trough cloning and configurnig with github.
+
+Setup the SSH-key
+Open the terminal in Ubuntu.
+Type: 
+
+$ cd ~/.ssh 
+
+When the terminal displays: ""bash: cd: ./.ssh:No such file or directory" you should generate a public/private rsa ket pair, continue with step 3. 
+If the terminal changes to ~/.ssh directory, continue with step 5.
+Open a new terminal and type: 
+
+$ ssh-keygen -t rsa -C "your_email@youremail.com" 
+
+After hitting Enter, the terminal will say: 'Generating public/private rsa ket pair. Enter file in which to save the key(/Home/ubuntu/.ssh/id_rsa):' please press only enter and the terminal will ask to enter a passphrase.
+Enter a suitable passphrase which is > 4 characters. If this is done, please continue with step 6.
+(Follow this step only if your terminal changed to "~/.ssh") 
+You already have some SSH-keys, following commands will backup (in folder "key_backup") and remove the keys. Type in your terminal: 
+
+$ mkdir key_backup 
+$ cd id_rsa* key backup 
+$ rm id_rsa* 
+
+Add the SSH-key to github, type in the terminal: 
+
+$ gedit id_rsa.pub 
+
+Ubuntu will open a file, copy it's entire content:
+Open the github site and login.
+Go to "Account Settings" (in the upper right corner from your page).
+Click: "SSH Keys"
+Click: "Add another public key"
+Paste the copied content into the "key field" and press "Add key" 
+
+Open the terminal again and type the following command: 
+
+ssh-add 
+
+This is only required if you use ubuntu (which all the readers of this document should, as described in the introduction.)
+Your setup for the ssh-key is completed! Now you are ready to install github.
+
+Install Github
+Open the terminal and type the following command: 
+
+$ sudo apt-get install git-core git-gui git-doc 
+
+Your terminal will download some things and install github automaticly. When it's done, your installation is complete! The next step is getting your local copy of the repository (or code-branch), follow the instructions for "Cloning".
+
+Cloning
+Cloning is a way of downloading a local copy of your project. The following command will clone the code branch, just replace "username" with you GitHub username and project name with the name of project on github: 
+
+$ git clone git@github.com:username/projectname.git
+
