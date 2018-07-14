@@ -54,6 +54,10 @@ int main()
                 if(strcmp(token,"cd") == 0)
                 {
                     token = strtok(NULL," \n");
+                    if(token == NULL)
+                    {
+                        token = getenv("HOME");
+                    }
                     chdir(token); // changing path to path received from child process in second token
                 }
                 else if(strcmp(token,"exit") == 0)
