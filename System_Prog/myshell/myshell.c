@@ -1,8 +1,11 @@
-//Ashish Jain MT18052
-//Sarosh Hasan MT18084
+/*Ashish Jain MT18052
+Sarosh Hasan MT18084*/
+
+
 #include<stdio.h>
 #include<string.h>
 #include<unistd.h>
+#include <sys/wait.h>
 #include<stdlib.h>
 
 #define MAX_BUFFER 150
@@ -24,10 +27,10 @@ int main()
           for interprocess communication.*/
 
         pid = fork();//create a new child process
-        if(pid == 0)
+        if(pid == 0) // check if current process is child process
         {
             char *commands[10];
-            printf("@> ");
+            printf("user@myshell> "); //to print my shell is executing
             char tmp[10] = "/bin/sh"; //first command to execute command
             char tmp2[5] = "-c"; // parameter
             fgets(command, MAX_BUFFER, stdin); // taking input command from user
@@ -41,7 +44,7 @@ int main()
                 write(fd[1], command, (strlen(command)+1)); // passing command if cd or exit to parent process
             }
             int ret_val = execv(commands[0],(commands)); // executing commands 
-            exit(0); // exiting child process
+            exit(0); // exiting child process if invalid command received
         }
         else
         {
@@ -50,15 +53,15 @@ int main()
             wait(&status); // waiting for child process to complete execution
             if(nbytes > 0)
             {
-                token = strtok(readbuffer," \n");
+                token = strtok(readbuffer," \n"); // tokenize data received from child process to recognise the command exit or cd
                 if(strcmp(token,"cd") == 0)
                 {
                     token = strtok(NULL," \n");
                     if(token == NULL)
                     {
-                        token = getenv("HOME");
+                        token = getenv("HOME");//if cd received without any path specified then move to user home directory
                     }
-                    chdir(token); // changing path to path received from child process in second token
+                    chdir(token); // changing path to path received from child process in second token or switch to $HOME
                 }
                 else if(strcmp(token,"exit") == 0)
                 {
