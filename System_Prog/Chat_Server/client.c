@@ -1,4 +1,5 @@
 /*Ashish Jain MT18052*/
+/*Sarosh Hasan MT18084*/
 #include <stdio.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -39,35 +40,39 @@ int main(int argc, char *argv[])
         return -1;
     } 
 
-    if( connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+    if(connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
     {
        printf("\nConnection Failed \n");
        return -1;
     } 
-
+char ex[10]="exit";
+    while(1){
     /////////////////////////////////////////////////////////
     int readbytes = 0;
     char recvBuff[500];
-    memset(recvBuff, '0',sizeof(recvBuff));
+    memset(recvBuff, '0',sizeof(recvBuff));//clearing buffer memory
 
     memset(str, '0', (sizeof(char) * 500)); 
-    printf("Enter a message: ");
-    fgets(str,strlen(str), stdin);
-    send(sock , str , strlen(str) -1 , 0 );
-
-    
+    printf("\nEnter a message: ");
+    fgets(str,strlen(str), stdin); //message input from client
+    send(sock , str , strlen(str) -1 , 0 );//sending message to server
+	
     ////////////////////////////////////////////////////////
     
-    while ( (readbytes=read(sock, recvBuff, sizeof(recvBuff))) > 0)
-    {
+    readbytes=read(sock, recvBuff, sizeof(recvBuff));//receiving message from server
         recvBuff[readbytes] = 0;
-	    printf("%s",recvBuff);
-    }
-
+	printf("\nMessage received from Server: '%s'\n",recvBuff);
     if(readbytes < 0)
     {
         printf("\n Read error \n");
-    } 
+    }
+	
+      if(strcmp(recvBuff,ex)==0)//if exit received from server terminate client
+	{
+	 send(sock , ex , strlen(ex) , 0 );//sending exit to close connection from server side
+	break;
+	}
+    }
 
     return 0;
 }

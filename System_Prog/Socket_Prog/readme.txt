@@ -11,7 +11,7 @@ contents of zip file:
 Extract files:
 
 To compile
-1. make clien (To Compile Client)
+1. make client (To Compile Client)
 2. make server (To Compile Server)
 3. make all (To compile both client and server)
    
