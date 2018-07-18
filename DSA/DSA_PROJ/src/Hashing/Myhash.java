@@ -1,7 +1,11 @@
 package Hashing;
 
+//import java.io.BufferedReader;
+import java.io.File;
+//import java.io.FileReader;
 //import java.util.Arrays;
 import java.util.Scanner;
+import java.util.*;
 
 public class Myhash implements Comparable<Myhash> {
 
@@ -97,39 +101,46 @@ public class Myhash implements Comparable<Myhash> {
 	public static void main(String[] args) {
 	
 		Scanner sc = new Scanner(System.in);
-		int m = 11;
-		String []s = new String[m];
-		s[0] = new String("The");
-		s[1] = new String("Thfe");
-		s[2] = new String("Thfe");
-		s[3] = new String("Thfe");
-		s[4] = new String("The");
-		s[5] = new String("This");
-		s[6] = new String("Th");
-		s[7] = new String("Th");
-		s[8] = new String("Th");
-		s[9] = new String("Th");
-		s[10] = new String("Thjr");
-		System.out.print("Enter Threshold: ");
-		int k = sc.nextInt();
+		System.out.print("Enter filepath/name: ");
+		String filename = new String(sc.next());//input filename
+		File file = new File(filename);//
+		Scanner filereader = null;
+		try 
+		{
+		filereader = new Scanner(file);//filereader scanner object
+		int cou = 0;
+		List<String> s = new ArrayList<String>();
+		filereader.useDelimiter("\\s\\s*|\\-\\s*|\\\n\\s*|\\.\\s*|\\,\\s*"); //delimeters to read words from file
+		while(filereader.hasNext())//reading while end of file
+		{
+			s.add(filereader.next()); // adding words to list of string
+			cou++;
+		}
+		
 		
 		Myhash hash[] = new Myhash[prime];
-		Myhash arrayhash[] = new Myhash[m];
+		Myhash arrayhash[] = new Myhash[cou];
+		
 		int count = 0; // count of elements with frequency more than k
-		for(int i = 0; i < m; i ++) // iterating over list of words
+		for(int i = 0; i < cou; i ++) // iterating over list of words
 		{
-			int index = get_index(s[i]); // fetching index according to word
+		
+//			System.out.print(s.get(i) + " ");
+			int index = get_index(s.get(i)); // fetching index according to word
 			if(hash[index] == null)//checking if it is the first element in hash table
 			{
 				hash[index] = new Myhash();
-				hash[index].insert(s[i]);
+				hash[index].insert(s.get(i));
 			}
 			else
 			{
 			//	System.out.println("here");
-				hash[index].insert(s[i]);
+				hash[index].insert(s.get(i));
 			}
 		}
+		System.out.print("Enter Threshold: ");
+		
+		int k = sc.nextInt();
 		for(int i = 0; i < prime; i ++) // creating new list from hash with words freq more than k
 		{
 				Myhash tmp = hash[i];
@@ -150,6 +161,14 @@ public class Myhash implements Comparable<Myhash> {
 		{
 			System.out.println(arrayhash[i].word + " : " + arrayhash[i].freq);
 		}
+		filereader.close();
+		}
+		catch(Exception e)
+		{
+			System.out.println("File not found");
+		}
 		sc.close();
+		
+		
 	}
 }
