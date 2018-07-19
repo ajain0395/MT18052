@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
         return -1;
     } 
 
-    
+
     if((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         printf("\n Socket creation error \n");
@@ -42,36 +42,40 @@ int main(int argc, char *argv[])
 
     if(connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
     {
-       printf("\nConnection Failed \n");
-       return -1;
+        printf("\nConnection Failed \n");
+        return -1;
     } 
-char ex[10]="exit";
+    char ex[10]="exit";
     while(1){
-    /////////////////////////////////////////////////////////
-    int readbytes = 0;
-    char recvBuff[500];
-    memset(recvBuff, '0',sizeof(recvBuff));//clearing buffer memory
+        /////////////////////////////////////////////////////////
+        int readbytes = 0;
+        char recvBuff[500];
+        memset(recvBuff, '0',sizeof(recvBuff));//clearing buffer memory
 
-    memset(str, '0', (sizeof(char) * 500)); 
-    printf("\nEnter a message: ");
-    fgets(str,strlen(str), stdin); //message input from client
-    send(sock , str , strlen(str) -1 , 0 );//sending message to server
-	
-    ////////////////////////////////////////////////////////
-    
-    readbytes=read(sock, recvBuff, sizeof(recvBuff));//receiving message from server
+        memset(str, '0', (sizeof(char) * 500)); 
+        printf("\nClient: ");
+        fgets(str,(sizeof(char) * 500), stdin); //message input from client
+        send(sock , str , strlen(str) -1 , 0 );//sending message to server
+        if(strcmp(str,"exit\n") == 0)
+        {
+            break;
+        }
+
+        ////////////////////////////////////////////////////////
+
+        readbytes=read(sock, recvBuff, sizeof(recvBuff));//receiving message from server
         recvBuff[readbytes] = 0;
-	printf("\nMessage received from Server: '%s'\n",recvBuff);
-    if(readbytes < 0)
-    {
-        printf("\n Read error \n");
-    }
-	
-      if(strcmp(recvBuff,ex)==0)//if exit received from server terminate client
-	{
-	 send(sock , ex , strlen(ex) , 0 );//sending exit to close connection from server side
-	break;
-	}
+        printf("\nServer: %s\n",recvBuff);
+        if(readbytes < 0)
+        {
+            printf("\n Read error \n");
+        }
+
+        if(strcmp(recvBuff,ex)==0)//if exit received from server terminate client
+        {
+            send(sock , ex , strlen(ex) , 0 );//sending exit to close connection from server side
+            break;
+        }
     }
 
     return 0;

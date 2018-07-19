@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     while(1)
     {
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
-        printf("\nAccepted a connection from %d\n",connfd);
+        printf("\nAccepted a connection from Client[%d]\n",connfd - 3);
         pid = fork();//creating a new child process when a new client connection request received
         if(pid == 0)//if child process then exit from while loop for communication
         {
@@ -58,18 +58,18 @@ int main(int argc, char *argv[])
             if((readbytes=read(connfd, recvBuff, sizeof(recvBuff)))> 0)//receiving message from client
             {
                 recvBuff[readbytes] = '\0';
-                printf("\nReceived Message: '%s' of length:[%d] from Client:[%d]\n",recvBuff, (int)strlen(recvBuff),connfd);
+                printf("\nClient[%d]: %s\n",connfd - 3, recvBuff);
             }
 
             if(strcmp(recvBuff, "exit") == 0)//if client sends connection termination message
             {
                 strcpy(sendBuff,"exit");
                 write(connfd, sendBuff, strlen(sendBuff));//send exit to client for confirmation
-                printf("\nClosing connection with client[%d]",connfd);
+                printf("\nClosing connection with Client[%d]",connfd - 3);
                 printf("\nServer is still listening for connections!\n");
                 break;
             }
-            printf("\n Enter Message to be send to Client[%d]:",connfd);
+            printf("\nServer->Client[%d]:",connfd - 3);
             fgets(sendBuff,500,stdin);//message input from server
             write(connfd, sendBuff, strlen(sendBuff) -1 );//sending message to client 
         }while(1);

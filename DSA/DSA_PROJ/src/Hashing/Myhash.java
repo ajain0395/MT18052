@@ -110,10 +110,16 @@ public class Myhash implements Comparable<Myhash> {
 		filereader = new Scanner(file);//filereader scanner object
 		int cou = 0;
 		List<String> s = new ArrayList<String>();
-		filereader.useDelimiter("\\s\\s*|\\-\\s*|\\\n\\s*|\\.\\s*|\\,\\s*"); //delimeters to read words from file
+		String temp;
+		filereader.useDelimiter("\\s\\s*|\\\n\\s*|\\.\\s*|\\,\\s*|\\;\\s*|\\(\\s*|\\)\\s*|\\!\\s*"); //delimeters to read words from file
 		while(filereader.hasNext())//reading while end of file
 		{
-			s.add(filereader.next()); // adding words to list of string
+			temp = filereader.next();
+			if(temp.contains("-"))
+			{
+				temp = temp.replaceAll("-", "");
+			}
+			s.add(temp); // adding words to list of string
 			cou++;
 		}
 		
