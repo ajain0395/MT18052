@@ -7,13 +7,13 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.*;
 
-public class Myhash implements Comparable<Myhash> {
+public class Myhash{
 
 	public static int prime = 251;//assuming max length of each word is 10
 	int freq;
 	String word;
 	Myhash next;
-	static int partition(Myhash arr[], int low, int high)
+	static int partition(Myhash arr[], int low, int high) // Quick Sort Partitioning
     {
         Myhash pivot = arr[high]; 
         int i = (low-1);
@@ -36,7 +36,7 @@ public class Myhash implements Comparable<Myhash> {
         return i+1;
     }
 
-	static void sort(Myhash arr[], int low, int high)
+	static void sort(Myhash arr[], int low, int high)//Quick Sort
     {
         if (low < high)
         {
@@ -46,12 +46,7 @@ public class Myhash implements Comparable<Myhash> {
             sort(arr, pi+1, high);
         }
     }
-	@Override
-	public int compareTo(Myhash arg0) {
-		
-		return this.freq - arg0.freq;
-	}
-	public Myhash(Myhash obj) {
+	public Myhash(Myhash obj) {//Copy constructor
 		this.freq = obj.freq;
 		this.word = obj.word;
 		this.next = null;
@@ -60,7 +55,7 @@ public class Myhash implements Comparable<Myhash> {
 		this.freq = 0;
 		this.next = null;
 	}
-	void insert(String str)
+	void insert(String str) // inserting word to hash table
 	{
 		if(word == null)
 		{
@@ -68,11 +63,11 @@ public class Myhash implements Comparable<Myhash> {
 			this.freq = 1;
 			this.next = null;
 		}
-		else if(word.equalsIgnoreCase(str))
+		else if(word.equalsIgnoreCase(str))//checking if word already exist in hash table
 		{
 			this.freq++;
 		}
-		else if(this.next != null)
+		else if(this.next != null)//if there is chaining on a particular index then add new element in chain
 		{
 			this.next.insert(str);
 		}
@@ -92,12 +87,7 @@ public class Myhash implements Comparable<Myhash> {
 		}
 		return count % prime;
 	}
-	boolean isinlist(String str)
-	{
-	
-//		if()
-		return false;
-	}
+
 	public static void main(String[] args) {
 	
 		Scanner sc = new Scanner(System.in);
@@ -107,17 +97,17 @@ public class Myhash implements Comparable<Myhash> {
 		Scanner filereader = null;
 		try 
 		{
-		filereader = new Scanner(file);//filereader scanner object
+		filereader = new Scanner(file);//file reader scanner object
 		int cou = 0;
 		List<String> s = new ArrayList<String>();
 		String temp;
-		filereader.useDelimiter("\\s\\s*|\\\n\\s*|\\.\\s*|\\,\\s*|\\;\\s*|\\(\\s*|\\)\\s*|\\!\\s*"); //delimeters to read words from file
+		filereader.useDelimiter("\\s\\s*|\\\n\\s*|\\.\\s*|\\,\\s*|\\;\\s*|\\(\\s*|\\)\\s*|\\!\\s*|\\:\\s*|\\?\\s*"); //delimeters to read words from file
 		while(filereader.hasNext())//reading while end of file
 		{
 			temp = filereader.next();
 			if(temp.contains("-"))
 			{
-				temp = temp.replaceAll("-", "");
+				temp = temp.replaceAll("-", "");//concatenating words divided via -
 			}
 			s.add(temp); // adding words to list of string
 			cou++;
@@ -169,7 +159,7 @@ public class Myhash implements Comparable<Myhash> {
 		}
 		filereader.close();
 		}
-		catch(Exception e)
+		catch(Exception e)//file not found exception handling
 		{
 			System.out.println("File not found");
 		}
