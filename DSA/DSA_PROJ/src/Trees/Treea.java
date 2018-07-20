@@ -9,11 +9,11 @@ public class Treea {
 	String data = null;
 	static int posthigh = 0,
 			prelow = 0;
-	public Treea(String val) {
+	public Treea(String val) {//constructor to initialize object 
 		// TODO Auto-generated constructor stub
 	this.data = new String(val);
 	}
-	static void printpostorder(Treea root)
+	static void printpostorder(Treea root)//print post order traversal of tree
 	{
 		if(root == null)
 		{
@@ -25,7 +25,7 @@ public class Treea {
 		System.out.print(root.data + " ");
 	}
 
-	static void printpreorder(Treea root)
+	static void printpreorder(Treea root)//print preorder traversal of tree
 	{
 		if(root == null)
 		{
@@ -38,7 +38,7 @@ public class Treea {
 		
 	}
 	
-	static void printinorder(Treea root)
+	static void printinorder(Treea root)//print inorder traversal of tree
 	{
 		if(root == null)
 		{
@@ -49,7 +49,7 @@ public class Treea {
 		printinorder(root.right);
 		
 	}
-	static Treea Preorder(String []in,String []pre, int low, int high)
+	static Treea Preorder(String []in,String []pre, int low, int high)//create tree if preorder and inorder traversal is provided
 	{
 		if(low > high)
 		{
@@ -58,7 +58,7 @@ public class Treea {
 		int index = 0;
 		Treea root = new Treea(pre[prelow]);
 		prelow++;
-		for(int i = low; i <= high; i++)
+		for(int i = low; i <= high; i++)//searching for first element from preorder in inorder to split the tree
 		{
 			if(in[i].equals(root.data))
 			{
@@ -73,7 +73,7 @@ public class Treea {
 		return root;
 	}
 
-	static Treea Postorder(String []in,String []post, int low, int high)
+	static Treea Postorder(String []in,String []post, int low, int high)//create tree if postorder and inorder traversal is provided
 	{
 		if(low > high)
 		{
@@ -82,7 +82,7 @@ public class Treea {
 		int index = 0;
 		Treea root = new Treea(post[posthigh]);
 		posthigh--;
-		for(int i = low; i <= high; i++)
+		for(int i = low; i <= high; i++)//search last element of postorder in inorder to split tree 
 		{
 			if(in[i].equals(root.data))
 			{
@@ -101,21 +101,21 @@ public class Treea {
 		
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter Inorder: ");
-		String in = new String(sc.nextLine());
-		String inorder[] = in.split(" ");
+		String in = new String(sc.nextLine());//input inorder traversal of tree
+		String inorder[] = in.split(" ");// split string 
 		String order = null;
 		Treea root = null;
 		System.out.print("Enter Choice:-\n1. To Insert Preorder\n2. To Insert Postorder\n: ");
 		switch(Integer.parseInt(sc.nextLine()))
 		{
-		case 1:
+		case 1://if user wants to enter preorder
 		{
 			System.out.print("Enter Preorder: ");
-			order = new String(sc.nextLine());
+			order = new String(sc.nextLine());//input preorder tree
 			String pre[] = order.split(" ");
 			prelow = 0;
-			root = Preorder(inorder, pre, 0, pre.length - 1);
-			System.out.print("Preorder: ");printpreorder(root);
+			root = Preorder(inorder, pre, 0, pre.length - 1);//calling method to create tree
+			System.out.print("\nPreorder: ");printpreorder(root);
 			System.out.println();
 			System.out.print("Inorder: ");printinorder(root);
 			System.out.println();
@@ -123,14 +123,14 @@ public class Treea {
 			System.out.println();		
 			break;
 		}
-		case 2:
+		case 2://if user wants to enter postorder
 		{
 			System.out.print("Enter Postorder: ");
-			order = new String(sc.nextLine());
+			order = new String(sc.nextLine());//input postorder tree
 			String post[] = order.split(" ");
 			posthigh = post.length - 1;
-			root = Postorder(inorder, post, 0, post.length - 1);
-			System.out.print("Preorder: ");printpreorder(root);
+			root = Postorder(inorder, post, 0, post.length - 1);//calling method to create tree
+			System.out.print("\nPreorder: ");printpreorder(root);
 			System.out.println();
 			System.out.print("Inorder: ");printinorder(root);
 			System.out.println();
@@ -141,18 +141,24 @@ public class Treea {
 		default:
 		{
 			System.out.println("Invalid Choice");
+			System.exit(1);
 		}
 		}
-		
-		  int h = height(root);
-	        int i;
-	        for (i=1; i<=h; i++)
-	        {
-	        	printGivenLevel(root, i);
-	        	System.out.println();
-	        }
-		
+		  int height = height(root); // calculating height of tree
+		  System.out.println("\nOutput Tree:");
+		  printtree(height, root); // Printing generated tree
 		sc.close();
+	}
+	static void printtree(int currentlevel,Treea root) 
+	{
+		if(currentlevel < 1)
+		{
+			return;
+		}
+		
+		printtree(currentlevel - 1, root);
+    	currlevelprint( currentlevel,root);//iterating at each level to print nodes of particular level
+    	System.out.println();
 	}
 	 static int height(Treea root)
 	    {
@@ -160,21 +166,18 @@ public class Treea {
 	           return 0;
 	        else
 	        {
-	            /* compute  height of each subtree */
-	            int lheight = height(root.left);
-	            int rheight = height(root.right);
+	            
+	        	int rh = height(root.right);
+	            int lh = height(root.left);
+	            
 	             
-	            /* use the larger one */
-	            if (lheight > rheight)
-	                return(lheight+1);
-	            else return(rheight+1); 
+	            if (rh < lh)	//comparing depth of left and right side of tree
+	                return(lh + 1);
+	            else return(rh + 1); 
 	        }
 	    }
-	  void printLevelOrder()
-	    {
-	      
-	    }
-	 static void printGivenLevel (Treea root ,int level)
+	  
+	 static void currlevelprint(int level,Treea root)//print nodes at i level
 	    {
 	        if (root == null)
 	            return;
@@ -182,8 +185,8 @@ public class Treea {
 	            System.out.print(root.data + " ");
 	        else if (level > 1)
 	        {
-	            printGivenLevel(root.left, level-1);
-	            printGivenLevel(root.right, level-1);
+	        	currlevelprint(level-1,root.left);
+	        	currlevelprint(level-1,root.right);
 	        }
 	    }
 }
