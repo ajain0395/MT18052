@@ -143,7 +143,47 @@ public class Treea {
 			System.out.println("Invalid Choice");
 		}
 		}
+		
+		  int h = height(root);
+	        int i;
+	        for (i=1; i<=h; i++)
+	        {
+	        	printGivenLevel(root, i);
+	        	System.out.println();
+	        }
+		
 		sc.close();
 	}
-
+	 static int height(Treea root)
+	    {
+	        if (root == null)
+	           return 0;
+	        else
+	        {
+	            /* compute  height of each subtree */
+	            int lheight = height(root.left);
+	            int rheight = height(root.right);
+	             
+	            /* use the larger one */
+	            if (lheight > rheight)
+	                return(lheight+1);
+	            else return(rheight+1); 
+	        }
+	    }
+	  void printLevelOrder()
+	    {
+	      
+	    }
+	 static void printGivenLevel (Treea root ,int level)
+	    {
+	        if (root == null)
+	            return;
+	        if (level == 1)
+	            System.out.print(root.data + " ");
+	        else if (level > 1)
+	        {
+	            printGivenLevel(root.left, level-1);
+	            printGivenLevel(root.right, level-1);
+	        }
+	    }
 }
