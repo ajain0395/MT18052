@@ -8,10 +8,13 @@ public class Systems {
 	static Scanner sc = new Scanner(System.in);
 	
 	ArrayList<Restaurant> rest_list = new ArrayList<Restaurant>();
+	ArrayList<Customer>		cust_list = new ArrayList<Customer>();
+	int Restaurant_count;
 	
 	public Systems(int n)
 	{
-		for(int i = 0; i < n; i++)
+		Restaurant_count = n;
+		for(int i = 0; i < Restaurant_count; i++)
 		{
 			this.rest_list.add(new Restaurant());
 		}
@@ -51,19 +54,75 @@ public class Systems {
 		System.out.println("===============================================================================================================");
 	}
 	
+	public Customer add_customer(String name,String number)
+	{
+		Customer cst = new Customer(name,number);
+		int restid;
+		do
+		{
+		display_restaurant();
+			System.out.print("Enter Restaurant id : ");
+			restid = sc.nextInt();
+			if(restid > Restaurant_count || restid < 1)
+			{
+				System.out.println("Invalid Choice");
+				
+			}
+		}while(restid > Restaurant_count || restid < 1);
+		restid--;
+		cst.getCart().setRes(rest_list.get(restid));
+		int ch = 0;
+		
+		do
+		{
+			System.out.println("===============================================================================================================");
+			System.out.println("1.Add Item\n2.Remove Item\n3.Checkout\n4.Display Cart");
+			System.out.println("===============================================================================================================");
+			System.out.println("Enter Choice");
+			ch = sc.nextInt();
+			switch(ch)
+			{
+			case 1:
+				//mainsys.rest_list.get(restid).getMenu();	
+			
+				System.out.println("Add Item");
+				cst.getCart().add_item(cst.getCart().getRes().menu.get(getitem(restid)));
+				break;
+			case 2:
+			
+				System.out.println("Remove Item");
+				cst.getCart().remove_item(); 
+				break;
+			case 3:
+			
+				cst.checkout();
+				break;
+			case 4:
+			
+				cst.getCart().display();
+				break;
+				default:
+					System.out.println("Invalid choice");
+					break;
+			}
+			
+		}while(ch != 3);
+		
+
+		return cst;
+	}
 	
 	public static void main(String []args)
 	{
-		int Restaurant_count = 2;
-		int restid;
-		Systems mainsys = new Systems(Restaurant_count);
+		
+		Systems mainsys = new Systems(2);
 		
 		
 			mainsys.rest_list.get(0).setName("Restaurant 1");
 			mainsys.rest_list.get(0).setAddress("Delhi");
 			mainsys.rest_list.get(0).setRest_number("9856321478");
 			mainsys.rest_list.get(0).setMinval(0);
-			mainsys.rest_list.get(1).setFine(0);
+			mainsys.rest_list.get(0).setFine(0);
 			mainsys.rest_list.get(0).add_dish(0,100,"Salad");
 			mainsys.rest_list.get(0).add_dish(1,50,"Papad");
 			
@@ -75,59 +134,8 @@ public class Systems {
 			mainsys.rest_list.get(1).add_dish(0,100,"Daal");
 			mainsys.rest_list.get(1).add_dish(1,10,"Roti");
 	
-			Customer cst = new Customer("Ashish Jain","9711882335");
 			
-		
-			do
-			{
-			
-				mainsys.display_restaurant();
-				System.out.print("Enter Restaurant id : ");
-				restid = sc.nextInt();
-				if(restid > Restaurant_count || restid < 1)
-				{
-					System.out.println("Invalid Choice");
-					
-				}
-			}while(restid > Restaurant_count || restid < 1);
-			restid--;
-			cst.getCart().setRes(mainsys.rest_list.get(restid));
-			int ch = 0;
-			
-			do
-			{
-				System.out.println("===============================================================================================================");
-				System.out.println("1.Add Item\n2.Remove Item\n3.Checkout\n4.Display Cart");
-				System.out.println("===============================================================================================================");
-				ch = sc.nextInt();
-				switch(ch)
-				{
-				case 1:
-					//mainsys.rest_list.get(restid).getMenu();	
-				
-					System.out.println("Add Item");
-					cst.getCart().add_item(cst.getCart().getRes().menu.get(mainsys.getitem(restid)));
-					break;
-				case 2:
-				
-					System.out.println("Remove Item");
-					cst.getCart().remove_item(); 
-					break;
-				case 3:
-				
-					cst.checkout();
-					break;
-				case 4:
-				
-					cst.getCart().display();
-					break;
-					default:
-						System.out.println("Invalid choice");
-						break;
-				}
-				
-			}while(ch != 3);
-			
-			
+			mainsys.cust_list.add(mainsys.add_customer("Ashish Jain","9718865548"));
+						
 	}
 }
