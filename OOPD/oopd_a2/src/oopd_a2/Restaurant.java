@@ -29,10 +29,12 @@ public class Restaurant {
 	
 	public void getMenu()
 	{
+		System.out.println("===============================================================================================================");
 		for(int i = 0; i < menu.size();i++)
 		{
 			System.out.println("Item id: "+menu.get(i).id+"\tItem Name: " +menu.get(i).getDish() + "\tPrice: " + menu.get(i).getPrice()+"/-" );
 		}
+		System.out.println("===============================================================================================================");
 	}
 	
 	public void add_dish(int id,int price,String dish)

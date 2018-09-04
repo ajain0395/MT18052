@@ -19,6 +19,7 @@ public class Cart {
 	
 	void display()
 	{
+		System.out.println("===============================================================================================================");
 			for(int i = 0; i < dish.size();i++)
 			{
 				System.out.println("Item id: "+dish.get(i).getId()+"\tItem Name: " +dish.get(i).getDish() + "\tPrice: " + dish.get(i).getPrice() );
@@ -32,6 +33,7 @@ public class Cart {
 			{
 				System.out.println("Total Amount " + this.getTotal() + "/-");
 			}
+			System.out.println("===============================================================================================================");
 	}
 	
 	public int getTotal() {
@@ -51,10 +53,12 @@ public class Cart {
 	{
 		boolean flag = false;
 		int id ;
+	
 		do
 		{
-			
+			System.out.println("===============================================================================================================");	
 		display_dishes();
+		System.out.println("===============================================================================================================");
 		System.out.println("Enter Dish id: ");
 		id = Systems.sc.nextInt();
 		for(int i = 0; i <dish.size();i++)
@@ -72,6 +76,7 @@ public class Cart {
 		{
 			System.out.println("invalid item;");
 		}
+		
 		}while(!flag);
 	}
 	public Restaurant getRes() {

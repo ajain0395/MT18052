@@ -35,19 +35,20 @@ public class Systems {
 	}
 	void display_restaurant()
 	{
+		System.out.println("===============================================================================================================");
+		System.out.println("No.\tName\t\tPhone Number\t\tAddress\t\tMin Order Val\t\tDelivery Charge");
+		System.out.println("===============================================================================================================");
 		for(int i = 0; i <rest_list.size();i++)
 		{
-			System.out.print((i+1) + " ");
-			System.out.print(rest_list.get(i).getName() + " ");
-			System.out.print(rest_list.get(i).getRest_number() + " ");
+			System.out.print((i+1) + "\t");
+			System.out.print(rest_list.get(i).getName() + "\t");
+			System.out.print(rest_list.get(i).getRest_number() + "\t\t");
 		
-			System.out.print(rest_list.get(i).getAddress());
-			if(rest_list.get(i).getMinval() > 0)
-			{
-			System.out.print(" Min Order Val " + rest_list.get(i).getMinval() + " or Rs. "+ rest_list.get(i).getFine() + " Extra for Delivery");
-			}
+			System.out.print(rest_list.get(i).getAddress()+ "\t\t");
+			System.out.print(rest_list.get(i).getMinval() + "\t\t\t" +rest_list.get(i).getFine() + "\t\t");
 			System.out.println();
 		}
+		System.out.println("===============================================================================================================");
 	}
 	
 	
@@ -79,6 +80,7 @@ public class Systems {
 		
 			do
 			{
+			
 				mainsys.display_restaurant();
 				System.out.print("Enter Restaurant id : ");
 				restid = sc.nextInt();
@@ -93,23 +95,31 @@ public class Systems {
 			int ch = 0;
 			
 			do
-			{	
+			{
+				System.out.println("===============================================================================================================");
 				System.out.println("1.Add Item\n2.Remove Item\n3.Checkout\n4.Display Cart");
+				System.out.println("===============================================================================================================");
 				ch = sc.nextInt();
 				switch(ch)
 				{
 				case 1:
 					//mainsys.rest_list.get(restid).getMenu();	
+				
 					System.out.println("Add Item");
 					cst.getCart().add_item(cst.getCart().getRes().menu.get(mainsys.getitem(restid)));
 					break;
 				case 2:
+				
 					System.out.println("Remove Item");
 					cst.getCart().remove_item(); 
 					break;
-				case 3:cst.checkout();
+				case 3:
+				
+					cst.checkout();
 					break;
-				case 4:cst.getCart().display();
+				case 4:
+				
+					cst.getCart().display();
 					break;
 					default:
 						System.out.println("Invalid choice");
