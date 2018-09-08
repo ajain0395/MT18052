@@ -4,9 +4,19 @@ public class Customer {
 
 	private String name;
 	private String cust_number;
-	
 	private Cart cart;
+	private String address;
 	
+	
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public void checkout()
 	{
 		System.out.println("Order Summary " + getName());
@@ -14,10 +24,12 @@ public class Customer {
 		System.out.println("Contact No. " + getCust_number());
 	}
 	
-	public Customer(String name,String cust_number)
+	public Customer(String name,String cust_number,String address)
 	{
+		
 		this.setName(name);
 		this.setCust_number(cust_number);
+		this.setAddress(address);
 		this.cart = new Cart();
 	}
 	

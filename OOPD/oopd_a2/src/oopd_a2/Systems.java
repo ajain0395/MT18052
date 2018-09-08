@@ -9,32 +9,35 @@ public class Systems {
 	
 	ArrayList<Restaurant> rest_list = new ArrayList<Restaurant>();
 	ArrayList<Customer>		cust_list = new ArrayList<Customer>();
-	int Restaurant_count;
 	
-	public Systems(int n)
+	public void add_restaurant(int id,String resname,String location,String phone,String owner,int minorder,int fine)
 	{
-		Restaurant_count = n;
-		for(int i = 0; i < Restaurant_count; i++)
-		{
-			this.rest_list.add(new Restaurant());
-		}
+//		Restaurant_count = n;
+		Restaurant res = new Restaurant();
+		res.setName(resname);
+		res.setId(id);
+		res.setAddress(location);
+		res.setFine(fine);
+		res.setMinval(minorder);
+		res.setOwner(owner);
+		res.setRest_number(phone);
+		rest_list.add(res);	
 	}
 	
-	int getitem(int restid)
+	int getitem(Restaurant rest)
 	{
 		
 		int val ;//= sc.nextInt();
 		do {
-			this.rest_list.get(restid).getMenu();
-			System.out.println("Enter Item ID: ");
+			rest.getMenu();
+			System.out.println("Enter Item no.: ");
 			val = sc.nextInt();
-			if(val > this.rest_list.get(restid).menu.size() || val < 0)
+			if((val - 1) > rest.menu.size() || val < 1)
 			{
 				System.out.println("Invalid Choice");
 			}
-		}while(val > this.rest_list.get(restid).menu.size() || val < 0);
-	
-		return val;
+		}while((val - 1 ) > rest.menu.size() || val < 1);
+		return val - 1 ;
 	}
 	void display_restaurant()
 	{
@@ -54,54 +57,90 @@ public class Systems {
 		System.out.println("===============================================================================================================");
 	}
 	
-	public Customer add_customer(String name,String number)
+	Restaurant select_restaurant()
 	{
-		Customer cst = new Customer(name,number);
 		int restid;
 		do
 		{
-		display_restaurant();
-			System.out.print("Enter Restaurant id : ");
+			display_restaurant();
+			System.out.print("Enter Restaurant no. : ");
 			restid = sc.nextInt();
-			if(restid > Restaurant_count || restid < 1)
+			if(restid > rest_list.size() || restid < 1)
 			{
 				System.out.println("Invalid Choice");
-				
 			}
-		}while(restid > Restaurant_count || restid < 1);
-		restid--;
-		cst.getCart().setRes(rest_list.get(restid));
+		}
+		while(restid > rest_list.size() || restid < 1);
+		return rest_list.get(restid-1);
+	}
+	
+	public void add_customer(String name,String number,String address)
+	{
+		Customer cst = new Customer(name,number,address);
+		Restaurant selected;
+		int selected_index = cst.getCart().res.size();
+		boolean flag = false;
+		selected = select_restaurant();
+		for(int i = 0; i < cst.getCart().res.size();i++)
+		{
+			if (cst.getCart().res.get(i).getId() == selected.getId())
+			{
+				flag = true;
+				selected_index = i;
+				break;
+			}
+		}
+		if(!flag)
+			{
+				selected_index = cst.getCart().res.size();
+				cst.getCart().res.add(new Restaurant(selected));
+			}
 		int ch = 0;
-		
 		do
 		{
 			System.out.println("===============================================================================================================");
-			System.out.println("1.Add Item\n2.Remove Item\n3.Checkout\n4.Display Cart");
+			System.out.println("1.Add Item\n2.Remove Item\n3.Checkout\n4.Display Cart\n5.Switch Restaurant");
 			System.out.println("===============================================================================================================");
 			System.out.println("Enter Choice");
 			ch = sc.nextInt();
 			switch(ch)
 			{
 			case 1:
-				//mainsys.rest_list.get(restid).getMenu();	
-			
 				System.out.println("Add Item");
-				cst.getCart().add_item(cst.getCart().getRes().menu.get(getitem(restid)));
+				cst.getCart().add_item(selected_index,selected.menu.get(getitem(selected)));
 				break;
 			case 2:
-			
 				System.out.println("Remove Item");
 				cst.getCart().remove_item(); 
 				break;
 			case 3:
-			
 				cst.checkout();
+				
 				break;
 			case 4:
-			
 				cst.getCart().display();
 				break;
-				default:
+			case 5:
+			{
+				flag = false;
+				selected = select_restaurant();
+				for(int i = 0; i < cst.getCart().res.size();i++)
+				{
+					if (cst.getCart().res.get(i).getId() == selected.getId())
+					{
+						flag = true;
+						selected_index = i;
+						break;
+					}
+				}
+				if(!flag)
+					{
+						selected_index = cst.getCart().res.size();
+						cst.getCart().res.add(new Restaurant(selected));
+					}
+			}
+				break;
+			default:
 					System.out.println("Invalid choice");
 					break;
 			}
@@ -109,33 +148,25 @@ public class Systems {
 		}while(ch != 3);
 		
 
-		return cst;
+		cust_list.add(cst);
+		
 	}
 	
 	public static void main(String []args)
-	{
+	{	
+		Systems mainsys = new Systems();
 		
-		Systems mainsys = new Systems(2);
-		
-		
-			mainsys.rest_list.get(0).setName("Restaurant 1");
-			mainsys.rest_list.get(0).setAddress("Delhi");
-			mainsys.rest_list.get(0).setRest_number("9856321478");
-			mainsys.rest_list.get(0).setMinval(0);
-			mainsys.rest_list.get(0).setFine(0);
+			mainsys.add_restaurant(66,"Restaurant 1","Govindpuri","9846523789","Raman",0,0);
+
 			mainsys.rest_list.get(0).add_dish(0,100,"Salad");
 			mainsys.rest_list.get(0).add_dish(1,50,"Papad");
-			
-			mainsys.rest_list.get(1).setName("Restaurant 2");
-			mainsys.rest_list.get(1).setAddress("Noida");
-			mainsys.rest_list.get(1).setRest_number("9654786321");
-			mainsys.rest_list.get(1).setMinval(100);
-			mainsys.rest_list.get(1).setFine(50);
+			mainsys.rest_list.get(0).add_dish(2,70,"Rice");
+
+			mainsys.add_restaurant(45,"Restaurant 2", "Lajpat Nagar", "9875462314", "Ram", 100, 50);
 			mainsys.rest_list.get(1).add_dish(0,100,"Daal");
 			mainsys.rest_list.get(1).add_dish(1,10,"Roti");
-	
-			
-			mainsys.cust_list.add(mainsys.add_customer("Ashish Jain","9718865548"));
+
+			mainsys.add_customer("Ashish Jain","9718865548","H1 IITD");
 						
 	}
 }
