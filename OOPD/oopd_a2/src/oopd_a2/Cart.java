@@ -59,7 +59,7 @@ public class Cart {
 			}
 			else
 			{
-				System.out.println("Amount:" + total_i + "/-");
+				System.out.println("Amount: " + total_i + "/-");
 			}
 		}
 		}
