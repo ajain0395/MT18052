@@ -6,9 +6,17 @@ public class Customer {
 	private String cust_number;
 	private Cart cart;
 	private String address;
+	String status;
 	
 	
-	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getAddress() {
 		return address;
 	}

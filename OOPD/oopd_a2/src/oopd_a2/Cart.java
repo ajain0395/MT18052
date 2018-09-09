@@ -5,10 +5,13 @@ import java.util.ArrayList;
 public class Cart {
 	
 	private int count;
-
 	ArrayList<Restaurant> res = new ArrayList<Restaurant>();
-//	ArrayList<Menu> dish = new ArrayList<Menu>();
+
+
 	
+	/*
+	 * Display dishes added in user's cart that user can remove 
+	 */
 	void display_dishes_to_remove()
 	{
 		int ind = 1;
@@ -29,6 +32,10 @@ public class Cart {
 		}
 			System.out.println("===============================================================================================================");
 	}
+	
+	/*
+	 * Display cart content
+	 */
 	void display()
 	{
 		int total_i = 0;
@@ -73,7 +80,9 @@ public class Cart {
 	{
 		this.setCount(count);;
 	}
-	
+	/*
+	 * Function to remove item from user's Cart
+	 */
 	public void remove_item()
 	{
 		boolean flag = false;
@@ -114,6 +123,9 @@ public class Cart {
 			System.out.println("Cart is Empty");
 		}
 	}
+	/*
+	 * Add dish to user's cart
+	 */
 	public void add_item(int index,Menu m)
 	{
 		res.get(index).menu.add(m);

@@ -13,6 +13,9 @@ public class Restaurant {
 	ArrayList <Menu>menu = new ArrayList<Menu>();
 	private int id;
 	
+	/*
+	 * Copy constructor 
+	 */
 	public Restaurant(Restaurant obj)
 	{
 		this.setAddress(obj.getAddress());
@@ -23,6 +26,9 @@ public class Restaurant {
 		this.setRest_number(obj.getRest_number());
 		this.setMinval(obj.getMinval());
 	}
+	/*
+	 * default constructor
+	 */
 	public Restaurant()
 	{
 		
@@ -59,7 +65,9 @@ public class Restaurant {
 	public void setMinval(int minval) {
 		this.minval = minval;
 	}
-	
+	/*
+	 * display menu of current Restaurant
+	 */
 	public void getMenu()
 	{
 		System.out.println("===============================================================================================================");
@@ -70,6 +78,10 @@ public class Restaurant {
 		System.out.println("===============================================================================================================");
 	}
 	
+	
+	/*
+	 * add a new dish to list of dishes 
+	 */
 	public void add_dish(int id,int price,String dish)
 	{
 		menu.add(new Menu(id,price,dish));
