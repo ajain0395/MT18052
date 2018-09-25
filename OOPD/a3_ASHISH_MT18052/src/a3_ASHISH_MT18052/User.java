@@ -31,7 +31,7 @@ public class User implements Journey {
 		int disc = 0;
 		while(flag)
 		{
-		System.out.println("1. Apply Coupon and Checkout\n2.Checkout");
+		System.out.println("1. Apply Coupon and Checkout\n2. Checkout");
 		int ch = Integer.parseInt(Main_System.sc.nextLine());
 		switch(ch)
 		{
@@ -54,7 +54,8 @@ public class User implements Journey {
 	}
 	void display_user()
 	{
-		System.out.println(username + "\t\t"+fullName+ "\t\t"+ ph_number);
+		System.out.print("\t\t"+getFullName() + "\t\t"+getUsername()+ "\t\t"+ getPh_number() + "\n");
+		System.out.println("Trips");
 		show_trips();
 	}
 	void user_menu()
@@ -65,7 +66,7 @@ public class User implements Journey {
 		
 		while(flag)
 		{
-			System.out.println("1.Show Trips\n2.New Trip\n3.Cancel Trip\n4.Logout");
+			System.out.println("1. Show Trips\n2. New Trip\n3. Cancel Trip\n4. Logout");
 			int ch = Main_System.nextint();
 			switch(ch)
 			{
@@ -76,7 +77,7 @@ public class User implements Journey {
 				String source,destination,date;
 				System.out.print("Enter Source: ");
 				source = Main_System.sc.nextLine();
-				System.out.print("Enter Source: ");
+				System.out.print("Enter Destination: ");
 				destination = Main_System.sc.nextLine();
 				
 				while(true)
@@ -116,12 +117,17 @@ public class User implements Journey {
 		
 		while(flag && history.size()>0)
 			{
+			System.out.println("0. To return to previous menu");
 			show_trips();
-			System.out.println("Enter Trip to be cancelled: ");
+			System.out.print("Enter Trip to be cancelled: ");
 			int ind = Main_System.nextint();
-			if(ind >history.size() || ind < 1)
+			if(ind >history.size() || ind < 0)
 			{
 				System.out.println("Invalid Choice");
+			}
+			else if(ind == 0)
+			{
+				flag = false;
 			}
 			else
 			{
@@ -133,8 +139,18 @@ public class User implements Journey {
 				else
 				{
 					System.out.println("Refund amount is "+ (history.get(ind).getCost() - (float)history.get(ind).getMedium().getCancel_charge()));
+				System.out.println("Rs. " +(float)history.get(ind).getMedium().getCancel_charge() + " will be deducted as the cancellation charges");
 				}
+				System.out.println("Remove Trip (Y/y) to confirm: ");
+				String y = Main_System.sc.nextLine();
+				if(y.equalsIgnoreCase("y"))
+				{
 				history.remove(ind);
+				}
+				else
+				{
+					System.out.println("Trip not Cancelled");
+				}
 				break;
 			}
 			
@@ -183,34 +199,33 @@ public class User implements Journey {
 	{
 		for(int index = 0;index < Main_System.air_mode.size();index++)
 		{
-			System.out.println((index + 1) + Main_System.air_mode.get(index).getName() + "\t\t"+Main_System.air_mode.get(index).getFare());
+			System.out.println((index + 1)+".\t" + Main_System.air_mode.get(index).getName() + "\t\t"+Main_System.air_mode.get(index).getFare());
 		}
 	}
-	/*
+	
 	void choose_bus()
 	{
 		for(int index = 0;index < Main_System.bus_mode.size();index++)
 		{
-			System.out.println((index + 1) + Main_System.bus_mode.get(index).getName() + "\t\t"+Main_System.bus_mode.get(index).getFare());
+			System.out.println((index + 1)+".\t" + Main_System.bus_mode.get(index).getName() + "\t\t"+Main_System.bus_mode.get(index).getFare());
 		}		
 	}
 	void choose_train()
 	{
 		for(int index = 0;index < Main_System.train_mode.size();index++)
 		{
-			System.out.println((index + 1) + Main_System.train_mode.get(index).getName() + "\t\t"+Main_System.train_mode.get(index).getFare());
+			System.out.println((index + 1)+".\t" + Main_System.train_mode.get(index).getName() + "\t\t"+Main_System.train_mode.get(index).getFare());
 		}
 	}
-	*/
+	
 	@Override
 	public void planner(String source, String destination, String date) {
-		// TODO Auto-generated method stub
 		
 		boolean flag = true;
 		int index;
 		while(flag)
 		{
-			System.out.println("Choose Mode of Travel\n1.Air Mode\n2.Train Mode\n3.Bus Mode");
+			System.out.println("Choose Mode of Travel\n1. Air Mode\n2. Train Mode\n3. Bus Mode");
 			int ch = Main_System.nextint();
 			switch(ch)
 			{
@@ -232,8 +247,7 @@ public class User implements Journey {
 			history.add(newTrip(source, destination, date, Main_System.air_mode.get(index -1)));
 			flag = false;
 			break;
-		/*	case 2:
-			{
+			case 2: 
 				while(true)
 				{
 					choose_train();
@@ -248,29 +262,27 @@ public class User implements Journey {
 					}
 					
 				}
-				newTrip(source, destination, date, Main_System.train_mode.get(index -1));				
-			}
-			break;
-			case 3:
+				history.add(newTrip(source, destination, date, Main_System.train_mode.get(index -1)));
+				flag = false;
+				break;
+			case 3: 
+				while(true)
 				{
-					while(true)
+					choose_bus();
+					index = Main_System.nextint();
+					if(index <1 || index > Main_System.bus_mode.size())
 					{
-						choose_bus();
-						index = Main_System.nextint();
-						if(index <1 || index > Main_System.bus_mode.size())
-						{
-							System.out.println("Invalid Input");
-						}
-						else
-						{
-							break;
-						}
-						
+						System.out.println("Invalid Input");
 					}
-					newTrip(source, destination, date, Main_System.bus_mode.get(index -1));
-
+					else
+					{
+						break;
+					}
+					
 				}
-				break;*/
+				history.add(newTrip(source, destination, date, Main_System.bus_mode.get(index -1)));
+				flag = false;
+				break;
 			default:
 				break;
 			}

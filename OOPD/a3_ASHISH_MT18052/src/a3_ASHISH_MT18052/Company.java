@@ -8,8 +8,8 @@ public interface Company {
 	boolean display_coupons();
 	void setName(String name);
 	String getName() ;
-	int getFare();
-	void setFare(int fare);
+	float getFare();
+	void setFare(float fare);
 	int select_code();
 	String getContact_number();
 	void setContact_number(String contact_number);

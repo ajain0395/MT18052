@@ -7,7 +7,7 @@ public class Air_Mode implements Company {
 
 	public String name;
 	public String contact_number;
-	int fare = 1000000;	
+	float fare = 1000000;
 	ArrayList<String> coupons_code = new ArrayList<String>();
 	ArrayList<Integer> coupons_percent = new ArrayList<Integer>();
 	int cancel_charge;
@@ -18,11 +18,14 @@ public class Air_Mode implements Company {
 		cancel_charge = 400;
 	}
 	
-	
-	
-	void register_company(String name,String number, int fare)
+	void display_info()
 	{
-			this.setFare(fare);
+		System.out.print("\t\t"+ getName() + "\t\t" + getContact_number() + "\t\t" + getFare() +"\t\tCoupons count: "+ coupons_code.size() +"\n");
+	}
+	
+	void register_company(String name,String number, float fare2)
+	{
+			this.setFare(fare2);
 			this.setName(name);
 			this.setContact_number(number);
 	}
@@ -59,11 +62,11 @@ public class Air_Mode implements Company {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getFare() {
+	public float getFare() {
 		return fare;
 	}
-	public void setFare(int fare) {
-		this.fare = fare;
+	public void setFare(float fare2) {
+		this.fare = fare2;
 	}
 	
 	public String getContact_number() {
@@ -71,6 +74,30 @@ public class Air_Mode implements Company {
 	}
 	public void setContact_number(String contact_number) {
 		this.contact_number = contact_number;
+	}
+	public void add_coupons()
+	{
+		int discount;
+		do {
+		System.out.println("Enter Discount Percentage to offer <= 30%");
+		discount = Main_System.nextint();
+		if(discount <=30 && discount >=0)
+		{
+			break;
+		}
+		else
+		{
+			System.out.println("Invalid Discount Percentage");
+		}
+		}while(true);
+		Random r = new Random();
+		String e = new String("");
+		for(int i = 0;i < 5;i++)
+		{
+			e+= (char)('A' + r.nextInt(25));
+		}
+		coupons_code.add(e);
+		coupons_percent.add(discount);
 	}
 	public void add_coupons(int discount)
 	{
@@ -98,7 +125,6 @@ public class Air_Mode implements Company {
 			else
 				{
 				int dis = coupons_percent.get(sel - 1);
-					
 				return dis;
 				}
 		}
