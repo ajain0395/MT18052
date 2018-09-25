@@ -8,15 +8,33 @@ public class User implements Journey {
 	String username;
 	String fullName;
 	String ph_number;
+	String Gender;
+	int age;
+	
+	public String getGender() {
+		return Gender;
+	}
+	public void setGender(String gender) {
+		Gender = gender;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+
 	ArrayList<Journey_details> history = new ArrayList<>();
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
-	public User(String fullname, String name,String number) {
+	public User(String fullname, String name,String number,int age,String gender) {
 		// TODO Auto-generated constructor stub
 		this.setFullName(fullname);
 		this.setUsername(name);
 		this.setPh_number(number);
+		this.setAge(age);
+		this.setGender(gender);
 	}
 	
 	Journey_details newTrip(String source,String destination,String date,Company company)
@@ -52,10 +70,17 @@ public class User implements Journey {
 		//history.add(new Journey_details());
 		return jd;
 	}
+	void display_user_profile()
+	{
+		System.out.print("Name: "+getFullName() + "\tUsername: "+getUsername()+ "\tContact No.: "+ getPh_number()+ "\tGender: "+ getGender() + "\tAge: " +getAge() + "\n");
+	}
 	void display_user()
 	{
-		System.out.print("\t\t"+getFullName() + "\t\t"+getUsername()+ "\t\t"+ getPh_number() + "\n");
+		
+		display_user_profile();
+		System.out.println("==============================================================================================");
 		System.out.println("Trips");
+		System.out.println("----------------------------------------------------------------------------------------------");
 		show_trips();
 	}
 	void user_menu()
@@ -66,10 +91,17 @@ public class User implements Journey {
 		
 		while(flag)
 		{
-			System.out.println("1. Show Trips\n2. New Trip\n3. Cancel Trip\n4. Logout");
+			System.out.println("==============================================================================================");
+			System.out.println("Hello " + getFullName());
+			System.out.println("----------------------------------------------------------------------------------------------");
+			
+			System.out.println("0. Profile\n1. Show Trips\n2. New Trip\n3. Cancel Trip\n4. Logout");
 			int ch = Main_System.nextint();
 			switch(ch)
 			{
+			case 0:
+				display_user_profile();
+				break;
 			case 1:
 				show_trips();
 				break;
@@ -98,7 +130,12 @@ public class User implements Journey {
 				planner(source, destination, Integer.toString(date));
 				break;
 			case 3:
-				cancel_trip();
+				if(history.size()>0)
+					cancel_trip();
+				else
+				{
+					System.out.println("No Record Found");
+				}
 				break;
 			case 4:
 				flag = false;
@@ -116,8 +153,12 @@ public class User implements Journey {
 	{
 		boolean flag = true;
 		
+		
 		while(flag && history.size()>0)
 			{
+			System.out.println("==============================================================================================");
+			System.out.println("Cancel Trip Menu");
+			System.out.println("----------------------------------------------------------------------------------------------");
 			System.out.println("0. To return to previous menu");
 			show_trips();
 			System.out.print("Enter Trip to be cancelled: ");
@@ -146,6 +187,7 @@ public class User implements Journey {
 				String y = Main_System.sc.nextLine();
 				if(y.equalsIgnoreCase("y"))
 				{
+					System.out.println("Ticket Cancellation Successful");
 				history.remove(ind);
 				}
 				else
@@ -165,6 +207,11 @@ public class User implements Journey {
 		}
 		else
 		{
+			System.out.println("==============================================================================================");
+			System.out.println(getFullName() +" Trip's");
+			System.out.println("----------------------------------------------------------------------------------------------");
+			System.out.println("Sno.\t\t Source\t\tDestination\t\tDate\t\tFare\t\tCompany");
+			System.out.println("----------------------------------------------------------------------------------------------");
 			for(int i = 0; i < history.size();i++)
 			{
 				System.out.println(i + 1 +"\t\t"+
@@ -196,27 +243,48 @@ public class User implements Journey {
 	public void setPh_number(String ph_number) {
 		this.ph_number = ph_number;
 	}
+	void choose_header()
+	{
+		System.out.println("==============================================================================================");
+		System.out.println("Choose Company");
+		System.out.println("----------------------------------------------------------------------------------------------");
+		System.out.println("Sno.\t\tCompany\t\tFare");
+		System.out.println("----------------------------------------------------------------------------------------------");
+	}
+	void choose_footer()
+	{
+		System.out.println("----------------------------------------------------------------------------------------------");
+		System.out.println("Enter '0' to go to previous menu");
+
+	}
 	void choose_air()
 	{
-		for(int index = 0;index < Main_System.air_mode.size();index++)
+		choose_header();
+			for(int index = 0;index < Main_System.air_mode.size();index++)
 		{
-			System.out.println((index + 1)+".\t" + Main_System.air_mode.get(index).getName() + "\t\t"+Main_System.air_mode.get(index).getFare());
+			System.out.println((index + 1)+".\t\t" + Main_System.air_mode.get(index).getName() + "\t\t"+Main_System.air_mode.get(index).getFare());
 		}
+			choose_footer();
+		
 	}
 	
 	void choose_bus()
 	{
+		choose_header();		
 		for(int index = 0;index < Main_System.bus_mode.size();index++)
 		{
-			System.out.println((index + 1)+".\t" + Main_System.bus_mode.get(index).getName() + "\t\t"+Main_System.bus_mode.get(index).getFare());
-		}		
+			System.out.println((index + 1)+".\t\t" + Main_System.bus_mode.get(index).getName() + "\t\t"+Main_System.bus_mode.get(index).getFare());
+		}
+		choose_footer();
 	}
 	void choose_train()
 	{
+		choose_header();
 		for(int index = 0;index < Main_System.train_mode.size();index++)
 		{
-			System.out.println((index + 1)+".\t" + Main_System.train_mode.get(index).getName() + "\t\t"+Main_System.train_mode.get(index).getFare());
+			System.out.println((index + 1)+".\t\t" + Main_System.train_mode.get(index).getName() + "\t\t"+Main_System.train_mode.get(index).getFare());
 		}
+		choose_footer();
 	}
 	
 	@Override
@@ -227,14 +295,16 @@ public class User implements Journey {
 		Journey_details cm = null;
 		while(flag)
 		{
-			System.out.println("Choose Mode of Travel\n1. Air Mode\n2. Train Mode\n3. Bus Mode\n4. Previous Menu.");
+			System.out.println("==============================================================================================");
+			System.out.println("Choose Travel Mode Menu");
+			System.out.println("----------------------------------------------------------------------------------------------");
+			System.out.println("1. Air Mode\n2. Train Mode\n3. Bus Mode\n4. Previous Menu.");
 			int ch = Main_System.nextint();
 			switch(ch)
 			{
 			case 1: 
 			while(true)
 			{
-				System.out.println("0.\tPrevious Menu");
 				choose_air();
 				index = Main_System.nextint();
 				if(index <0 || index > Main_System.air_mode.size())
@@ -255,8 +325,7 @@ public class User implements Journey {
 			case 2: 
 				while(true)
 				{
-					System.out.println("0.\tPrevious Menu");
-					choose_train();
+									choose_train();
 					index = Main_System.nextint();
 					if(index <0 || index > Main_System.train_mode.size())
 					{
@@ -274,7 +343,7 @@ public class User implements Journey {
 			case 3: 
 				while(true)
 				{
-					System.out.println("0.\tPrevious Menu");
+					
 					choose_bus();
 					index = Main_System.nextint();
 					if(index <0 || index > Main_System.bus_mode.size())
@@ -298,6 +367,9 @@ public class User implements Journey {
 			}
 			if(cm != null)
 			{
+				System.out.println("Ticket Confirmed");
+				System.out.println("Tiket Final Amount: " + cm.getCost());
+				cm.print_ticket();
 					history.add(cm);
 				flag = false;
 			}

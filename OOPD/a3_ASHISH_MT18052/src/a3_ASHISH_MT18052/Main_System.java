@@ -15,7 +15,7 @@ public class Main_System {
 	
 	void preregister()
 	{
-		User usr = new User("Ashish Jain","ajain0395","9711779966");
+		User usr = new User("Ashish Jain","ajain0395","9711779966",22,"M");
 		
 		Air_Mode cd = new Air_Mode();
 		cd.register_company("SpiceJet", "8965412347", 3500);
@@ -131,14 +131,14 @@ public class Main_System {
 		}
 		return index;
 	}
-	User registerUser(String fullname,String username,String number)
+	User registerUser(String fullname,String username,String number,int age,String gender)
 	{
 		User usr = null;
 		int index = -1;
 		index = find_user(username);
 		if(index == -1)
 		{
-			usr = new User(fullname,username,number);
+			usr = new User(fullname,username,number,age,gender);
 		}
 		else
 		{
@@ -154,7 +154,10 @@ public class Main_System {
 		String name,contact;
 		float fare;
 		while(flag){
-			System.out.println("Company Menu\n1. Register Company\n2. Add Coupon\n3. Previous Menu");
+			System.out.println("==============================================================================================");
+			System.out.println("Company Menu");
+			System.out.println("----------------------------------------------------------------------------------------------");
+			System.out.println("1. Register Company\n2. Add Coupon\n3. Previous Menu");
 			int ch = nextint();
 			switch(ch)
 			{
@@ -222,7 +225,9 @@ public class Main_System {
 		boolean flag = true;
 while(flag)
 {
-	
+	System.out.println("==============================================================================================");
+	System.out.println("Choose Service Menu");
+	System.out.println("----------------------------------------------------------------------------------------------");
 	System.out.println("1. Airline\n2. Bus Service\n3. Train Serivce");
 	int key = nextint();
 		switch (key) {
@@ -252,13 +257,17 @@ while(flag)
 
 	void User_view()
 	{
-		String username,fullname,number;
+		String username,fullname,number,gender;
+		int age;
 	
 		boolean flag = true;
 		
 		do
 		{
 			User us =null;
+			System.out.println("==============================================================================================");
+			System.out.println("User Menu");
+			System.out.println("----------------------------------------------------------------------------------------------");
 			System.out.println("1. Register\n2. Login\n3. Previous Menu");
 			int ch = Integer.parseInt(sc.nextLine());
 			switch(ch)
@@ -270,7 +279,11 @@ while(flag)
 				username = sc.nextLine();
 				System.out.print("Enter Phone Number: ");
 				number = sc.nextLine();
-				us = registerUser(fullname, username, number);
+				System.out.print("Enter Age: ");
+				age = nextint();
+				System.out.print("Enter Gender (M/F): ");
+				gender = sc.nextLine();
+				us = registerUser(fullname, username, number,age,gender);
 				if(us == null)
 					break;
 				else
@@ -318,23 +331,37 @@ while(flag)
 
 		boolean flag = true;
 		while(flag){
-			System.out.println("Choose your role\n1. Admin\n2. Company\n3. User");
+			System.out.println("==============================================================================================");
+			System.out.println("Choose Your Role");
+			System.out.println("----------------------------------------------------------------------------------------------");
+			System.out.println("1. Admin\n2. Company\n3. User");
 			int ch = nextint();
 			switch (ch) {
 			case 1:
 			
 				do{
-					System.out.println("Admin\n1.Companies Records\n2. User Records");
+					System.out.println("==============================================================================================");
+					System.out.println("Admin Menu");
+					System.out.println("----------------------------------------------------------------------------------------------");
+
+					System.out.println("1. Companies Records\n2. User Records\n3. Add Company Coupon\n4. Previous Menu");
 					int x = nextint();
 					if(x == 1)
 					{
 						admin.show_companies_records();
-						break;
 					}
 					else if(x == 2)
 					{
 						admin.show_users_records();
-					break;
+					
+					}
+					else if(x == 3)
+					{
+						admin.register_coupon();
+					}
+					else if(x == 4)
+					{
+						break;
 					}
 					else
 					{
@@ -357,10 +384,12 @@ while(flag)
 	void show_users_records()
 	{
 		System.out.println();
+		System.out.println("----------------------------------------------------------------------------------------------");
 		System.out.println("User Records");
+		System.out.println("----------------------------------------------------------------------------------------------");
 		for(int i = 0 ; i < user.size();i++)
 		{
-			System.out.print(i + 1);
+			System.out.print(i + 1+ ". ");
 			user.get(i).display_user();
 			System.out.println();
 		}
@@ -368,11 +397,17 @@ while(flag)
 	void show_companies_records()
 	{
 		System.out.println();
+		System.out.println("==============================================================================================");
 		System.out.println("Company Records");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		if(air_mode.size() > 0)
 		{
+	
 			System.out.println("Airlines");
-		}
+			System.out.println("----------------------------------------------------------------------------------------------");
+			System.out.println("Sno.\t\tCompany\t\tPhone Number\t\tFare\t\tCoupon Detail");
+			System.out.println("----------------------------------------------------------------------------------------------");		
+			}
 		for(int i = 0 ; i < air_mode.size();i++)
 		{
 			System.out.print(i + 1);
@@ -380,7 +415,12 @@ while(flag)
 		}
 		if(bus_mode.size() > 0)
 		{
-			System.out.println("Bus Services");
+			System.out.println("\nBus Services");
+			System.out.println("----------------------------------------------------------------------------------------------");
+
+			System.out.println("Sno.\t\tCompany\t\tPhone Number\t\tFare\t\tCoupon Detail");
+			System.out.println("----------------------------------------------------------------------------------------------");
+
 		}
 		for(int i = 0 ; i < bus_mode.size();i++)
 		{
@@ -389,7 +429,10 @@ while(flag)
 		}
 		if(train_mode.size() > 0)
 		{
-			System.out.println("Train Services");
+			System.out.println("\nTrain Services");
+			System.out.println("----------------------------------------------------------------------------------------------");
+			System.out.println("Sno.\t\tCompany\t\tPhone Number\t\tFare\t\tCoupon Detail");
+			System.out.println("----------------------------------------------------------------------------------------------");
 		}
 		for(int i = 0 ; i < train_mode.size();i++)
 		{

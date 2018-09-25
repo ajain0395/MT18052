@@ -19,6 +19,14 @@ public class Journey_details{
 		setDate(date);
 		setMedium(med);
 	}
+	void print_ticket()
+	{
+		System.out.println("```````````````````````````````````````````````````````````````````````````````````````````");
+		System.out.println("From "+ getSource()+"\t to \t"+getDestination());
+		System.out.println("Journey Date: " + getDate());
+		System.out.println("Company: " + medium.getName());
+		System.out.println("```````````````````````````````````````````````````````````````````````````````````````````");
+	}
 	public Company getMedium() {
 		return medium;
 	}

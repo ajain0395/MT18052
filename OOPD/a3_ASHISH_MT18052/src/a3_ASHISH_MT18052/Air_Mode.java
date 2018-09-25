@@ -90,14 +90,7 @@ public class Air_Mode implements Company {
 			System.out.println("Invalid Discount Percentage");
 		}
 		}while(true);
-		Random r = new Random();
-		String e = new String("");
-		for(int i = 0;i < 5;i++)
-		{
-			e+= (char)('A' + r.nextInt(25));
-		}
-		coupons_code.add(e);
-		coupons_percent.add(discount);
+		add_coupons(discount);
 	}
 	public void add_coupons(int discount)
 	{
