@@ -74,7 +74,8 @@ public class User implements Journey {
 				show_trips();
 				break;
 			case 2:
-				String source,destination,date;
+				String source,destination;
+				int date;
 				System.out.print("Enter Source: ");
 				source = Main_System.sc.nextLine();
 				System.out.print("Enter Destination: ");
@@ -83,8 +84,8 @@ public class User implements Journey {
 				while(true)
 				{
 				System.out.print("Enter Date(eg: 01 or 23 etc.): ");
-				date = Main_System.sc.nextLine();
-					if(date.length() != 2 || Integer.parseInt(date) > 31 || Integer.parseInt(date) < 1)
+				date = Main_System.nextint();
+					if(date > 31 || date < 1)
 					{
 						System.out.println("Invalid date");
 					}
@@ -94,7 +95,7 @@ public class User implements Journey {
 					}
 				}
 				//flag = false;
-				planner(source, destination, date);
+				planner(source, destination, Integer.toString(date));
 				break;
 			case 3:
 				cancel_trip();
@@ -223,18 +224,20 @@ public class User implements Journey {
 		
 		boolean flag = true;
 		int index;
+		Journey_details cm = null;
 		while(flag)
 		{
-			System.out.println("Choose Mode of Travel\n1. Air Mode\n2. Train Mode\n3. Bus Mode");
+			System.out.println("Choose Mode of Travel\n1. Air Mode\n2. Train Mode\n3. Bus Mode\n4. Previous Menu.");
 			int ch = Main_System.nextint();
 			switch(ch)
 			{
 			case 1: 
 			while(true)
 			{
+				System.out.println("0.\tPrevious Menu");
 				choose_air();
 				index = Main_System.nextint();
-				if(index <1 || index > Main_System.air_mode.size())
+				if(index <0 || index > Main_System.air_mode.size())
 				{
 					System.out.println("Invalid Input");
 				}
@@ -244,15 +247,18 @@ public class User implements Journey {
 				}
 				
 			}
-			history.add(newTrip(source, destination, date, Main_System.air_mode.get(index -1)));
-			flag = false;
+			if(index !=0)
+			cm = newTrip(source, destination, date, Main_System.air_mode.get(index -1));
+
+//			flag = false;
 			break;
 			case 2: 
 				while(true)
 				{
+					System.out.println("0.\tPrevious Menu");
 					choose_train();
 					index = Main_System.nextint();
-					if(index <1 || index > Main_System.train_mode.size())
+					if(index <0 || index > Main_System.train_mode.size())
 					{
 						System.out.println("Invalid Input");
 					}
@@ -262,15 +268,16 @@ public class User implements Journey {
 					}
 					
 				}
-				history.add(newTrip(source, destination, date, Main_System.train_mode.get(index -1)));
-				flag = false;
+				if(index !=0)
+				cm = newTrip(source, destination, date, Main_System.train_mode.get(index -1));
 				break;
 			case 3: 
 				while(true)
 				{
+					System.out.println("0.\tPrevious Menu");
 					choose_bus();
 					index = Main_System.nextint();
-					if(index <1 || index > Main_System.bus_mode.size())
+					if(index <0 || index > Main_System.bus_mode.size())
 					{
 						System.out.println("Invalid Input");
 					}
@@ -280,11 +287,19 @@ public class User implements Journey {
 					}
 					
 				}
-				history.add(newTrip(source, destination, date, Main_System.bus_mode.get(index -1)));
+				if(index !=0)
+				cm = newTrip(source, destination, date, Main_System.bus_mode.get(index -1));
+				break;
+			case 4:
 				flag = false;
 				break;
 			default:
 				break;
+			}
+			if(cm != null)
+			{
+					history.add(cm);
+				flag = false;
 			}
 		}
 		

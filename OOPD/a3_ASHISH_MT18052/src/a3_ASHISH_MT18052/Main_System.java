@@ -15,6 +15,7 @@ public class Main_System {
 	
 	void preregister()
 	{
+		User usr = new User("Ashish Jain","ajain0395","9711779966");
 		
 		Air_Mode cd = new Air_Mode();
 		cd.register_company("SpiceJet", "8965412347", 3500);
@@ -26,28 +27,52 @@ public class Main_System {
 		cd.add_coupons(8);
 		cd.add_coupons(11);
 		air_mode.add(cd);
+		usr.history.add(new Journey_details("Mumbai","Bangalore",20,cd));
 		cd = new Air_Mode();
 		cd.register_company("Air India", "8968965412", 5000);
 		cd.add_coupons(6);
 		cd.add_coupons(13);
 		air_mode.add(cd);
 		cd = new Air_Mode();
-		cd.register_company("Vistara Airlines", "6589412347", 4503);
+		cd.register_company("Vistara Inc", "6589412347", 4503);
 		cd.add_coupons(12);
 		cd.add_coupons(6);
 		air_mode.add(cd);
 		
-		
-		User usr = new User("Ashish Jain","ajain0395","9711779966");
 		usr.history.add(new Journey_details("Delhi","Bangalore",30,cd));
-		usr.history.add(new Journey_details("Mumbai","Bangalore",20,cd));
+		Train_Mode tm = new Train_Mode();
+		tm.register_company("Rail Yatri", "1800 200 5565", 800);
+		tm.add_coupons(15);
+		train_mode.add(tm);
+		
+		Bus_Mode bm = new Bus_Mode();
+		bm.register_company("Rajdhani", "4523168974", 500);
+		//bm.add_coupons(10);
+		bus_mode.add(bm);
+		usr.history.add(new Journey_details("Kerala","Bangalore",21,tm));
+
 		user.add(usr);
 		
 	}
 	
 	public static int nextint()
 	{
-		return Integer.parseInt('0'+sc.nextLine());
+		boolean flag = true;
+		String str = null;
+		while(flag)
+		{
+			str = sc.nextLine();
+			if(!str.matches("[0-9]+"))
+			{
+				System.out.println("Invalid input enter numbers only");
+			}
+			else
+			{
+				break;
+			}
+		}
+		
+		return Integer.parseInt('0'+ str);
 	}
 	
 	int find_user(String name)
@@ -165,21 +190,25 @@ public class Main_System {
 		while(flag)
 		{
 			int index;
+			System.out.print("Enter Company Name: ");
 			String name = sc.nextLine();
 			if(find_air_company(name) !=-1)
 			{
 				index =find_air_company(name);
 				air_mode.get(index).add_coupons();
+				flag = false;
 			}
 			else if(find_bus_company(name) !=-1)
 			{
 				index =find_bus_company(name);
 				bus_mode.get(index).add_coupons();
+				flag = false;
 			}
 			else if(find_train_company(name) !=-1)
 			{
 				index =find_train_company(name);
 				train_mode.get(index).add_coupons();
+				flag = false;
 			}
 			else
 			{
@@ -194,7 +223,7 @@ public class Main_System {
 while(flag)
 {
 	
-	System.out.println("1. Airline\n2. Bus Service3. Train Serivce");
+	System.out.println("1. Airline\n2. Bus Service\n3. Train Serivce");
 	int key = nextint();
 		switch (key) {
 		case 1:
