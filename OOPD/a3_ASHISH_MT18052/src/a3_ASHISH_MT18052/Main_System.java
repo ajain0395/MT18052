@@ -187,7 +187,7 @@ public class Main_System {
 	}
 	}
 	
-	private void register_coupon() {
+	void register_coupon() {
 
 		boolean flag = true;
 		while(flag)

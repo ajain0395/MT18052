@@ -14,7 +14,7 @@ public class Bus_Mode implements Company  {
 	
 	public Bus_Mode() {
 		// TODO Auto-generated constructor stub
-		cancel_charge = 40;
+		cancel_charge = 80;
 	}
 	
 	void display_info()
@@ -65,7 +65,7 @@ public class Bus_Mode implements Company  {
 		return fare;
 	}
 	public void setFare(float fare2) {
-		this.fare = fare2;
+		this.fare = Math.max(fare2,150);
 	}
 	
 	public String getContact_number() {

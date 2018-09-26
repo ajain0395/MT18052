@@ -66,7 +66,7 @@ public class Air_Mode implements Company {
 		return fare;
 	}
 	public void setFare(float fare2) {
-		this.fare = fare2;
+		this.fare = Math.max(fare2,700);
 	}
 	
 	public String getContact_number() {

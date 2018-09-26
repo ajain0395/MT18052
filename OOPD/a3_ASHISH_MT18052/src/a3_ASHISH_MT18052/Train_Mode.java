@@ -66,7 +66,7 @@ public class Train_Mode implements Company  {
 		return fare;
 	}
 	public void setFare(float fare2) {
-		this.fare = fare2;
+		this.fare = Math.max(fare2,100);
 	}
 	
 	public String getContact_number() {
