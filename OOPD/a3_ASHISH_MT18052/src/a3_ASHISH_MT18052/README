@@ -1,0 +1,34 @@
+display_info() method to display specific company info.
+register_company() to register a new company.
+display_coupons() to display coupons registered to company.
+select_code() to return the discount percentage of code.
+
+print_ticket() to display journey ticket.
+
+preregister() to save initial data.
+find_user() to search user in system.
+find_train_company() to search train company.
+find_air_company() to search air company.
+find_bus_company() to search bus company.
+registerUser() to register a new User.
+company_view() to invoke company view.
+register_coupon to register new coupon to company.
+newcompany() to register new company.
+User_view() to invoke user view.
+show_user_record() to show list of registered users.
+show_company_record() to show list of registered companies.
+
+newTrip() to create a new trip with 'X' company.
+display_user_profile() to display user data.
+display_user() to display all data of user including trips.
+user_menu() to display options available to user.
+cancel_trip() to cancel a planned trip.
+show_trips() to show user's trips.
+choose_bus() to show list of bus companies registered in system.
+choose_air() to show list of air companies registered in system.
+choose_train() to show list of train companies registered in system.
+
+Assumptions:
+Min fare is fixed for all type of services i.e fare cannot be less than that.
+date contains only date no month or year for ease of comparison and implementstion.
+Current system date is 30 and current system current month is of 30 days only seats booked on date other than 30 will be considered for next month.

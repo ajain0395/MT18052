@@ -3,8 +3,6 @@ package a3_ASHISH_MT18052;
 
 public interface Company {
 
-	
-
 	boolean display_coupons();
 	void setName(String name);
 	String getName() ;
