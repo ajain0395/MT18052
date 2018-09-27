@@ -1,5 +1,4 @@
 /*Ashish Jain MT18052*/
-/*Sarosh Hasan MT18084*/
 #include <stdio.h>
 #include <sys/socket.h>
 #include <sys/types.h>

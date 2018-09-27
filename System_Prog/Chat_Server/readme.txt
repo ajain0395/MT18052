@@ -1,9 +1,9 @@
-Roll No. - MT18052, MT18084 
-Name 	 - Ashish Jain, Sarosh Hasan	
+Roll No. - MT18052 
+Name 	 - Ashish Jain	
 
-1.Code Description -Socket Programming Homework-3 "Multi-client chat application" in C.
+1.Code Description - Socket Programming Homework-3 "Multi-client chat application" in C.
 		  
-2 EXtract the Zip file --> MT18052_Mt18084_Homework3
+2 EXtract the Zip file --> MT18052_Homework3
 
 3.How to compile 
 	--> make clean      (to delete both compiled files)

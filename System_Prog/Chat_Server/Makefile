@@ -1,5 +1,5 @@
-#Name: Ashish Jain, Sarosh Hasan
-#Roll No.: MT18052, MT18084
+#Name: Ashish Jain
+#Roll No.: MT18052
 all : client server
   
 client : client.o

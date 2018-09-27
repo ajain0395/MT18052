@@ -4,7 +4,7 @@ Roll No. MT18052
 This program is an example of Socket programming in C
 contents of zip file:
 1. Readme (instructions)
-2. compilation Automation
+2. Makefile for compilation Automation
 3. Client code (MT18052_client.c)
 4. Server Code (MT18052_server.c)
 
@@ -18,5 +18,5 @@ To compile
 
 To Run
 1. open 2 terminal windows
-2. ./client <Server IP> (On 1st terminal)
 2. ./server (On 2nd terminal)
+3. ./client <Server IP> (On 1st terminal)
