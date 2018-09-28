@@ -39,20 +39,18 @@ public class Main_System {
 		cd.add_coupons(6);
 		air_mode.add(cd);
 		
-		usr.history.add(new Journey_details("Delhi","Bangalore",30,cd));
 		Train_Mode tm = new Train_Mode();
-		tm.register_company("Rail Yatri", "1800 200 5565", 800);
+		tm.register_company("IRCTC", "18002005565", 800);
 		tm.add_coupons(15);
 		train_mode.add(tm);
+		usr.history.add(new Journey_details("Delhi","Bangalore",30,tm));
 		
 		Bus_Mode bm = new Bus_Mode();
-		bm.register_company("Rajdhani", "4523168974", 500);
+		bm.register_company("UPSRTC", "4523168974", 500);
 		//bm.add_coupons(10);
 		bus_mode.add(bm);
-		usr.history.add(new Journey_details("Kerala","Bangalore",21,tm));
-
+		usr.history.add(new Journey_details("Delhi","Dehradun",21,bm));
 		user.add(usr);
-		
 	}
 	
 	public static int nextint()
@@ -71,7 +69,6 @@ public class Main_System {
 				break;
 			}
 		}
-		
 		return Integer.parseInt('0'+ str);
 	}
 	
@@ -228,7 +225,7 @@ while(flag)
 	System.out.println("==============================================================================================");
 	System.out.println("Choose Service Menu");
 	System.out.println("----------------------------------------------------------------------------------------------");
-	System.out.println("1. Airline\n2. Bus Service\n3. Train Serivce");
+	System.out.println("1. Airline\n2. Bus Service");//\n3. Train Serivce");
 	int key = nextint();
 		switch (key) {
 		case 1:
@@ -243,13 +240,14 @@ while(flag)
 			bus_mode.add(bm);
 			flag = false;
 			break;
-		case 3:
+	/*	case 3:
 			Train_Mode tm = new Train_Mode();
 			tm.register_company(name, number, fare);
 			train_mode.add(tm);
 			flag = false;
-			break;
+			break;*/
 		default:
+			System.out.println("Invalid Choice");
 			break;
 		}
 }
