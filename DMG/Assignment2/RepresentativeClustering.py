@@ -11,8 +11,8 @@ def initialRepresentative(allDatapoints,k):
     #setup initial representatives
     representatives = []
     while True:
-        choice = int(raw_input("Enter your choice for initial Representative selection\n1.Random from Datapoints\n2.Select from Datapoints"))
-        if(choice == 1 or choice ==2):
+        choice = int(raw_input("Enter your choice for initial Representative selection\n1.Random from Datapoints\n2.Select from Datapoints\n3.Input from ',' separated file: \n: "))
+        if(choice == 1 or choice ==2 or choice == 3):
             break;
         else:
             print "Invalid Choice"
@@ -23,7 +23,7 @@ def initialRepresentative(allDatapoints,k):
     elif(choice == 2):
         while True:
             displayDatapoints(allDatapoints)
-            x=raw_input("Enter ',' separated index of"+ str(k) +" data points: ")
+            x=raw_input("Enter ',' separated index of "+ str(k) +" data points: ")
             index = map(int,x.split(','))
             set_index = set(index)
             flag = False
@@ -39,6 +39,20 @@ def initialRepresentative(allDatapoints,k):
                 break
             else:
                 print "Invalid input index"
+    elif(choice == 3):
+        flag2 = True
+        while flag2:
+            representatives = ReadData.getData()
+            if(len(representatives) == k):
+                flag2 = False
+                for item in representatives:
+                    if(len(item) != len(allDatapoints[0])):
+                        print "Invalid Representative ", item
+                        flag2 = True
+                        break
+            else:
+                print "Invalid Representatives Count"
+
     print "Initial Seed Selected", representatives
     return representatives
 
@@ -104,4 +118,5 @@ def getClusters(allDatapoints,k,mode):
         S = getnewRepresentative(clusterlist)
         if (checkConvergence(oldS,S) == True):
             print "Iterations count: ",iter
+            print "Converging Representative: ",S
             return clusterlist
