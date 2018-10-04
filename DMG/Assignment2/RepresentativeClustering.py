@@ -12,7 +12,6 @@ def initialRepresentative(allDatapoints,k):
     representatives = []
     while True:
         choice = int(raw_input("Enter your choice for initial Representative selection\n1.Random from Datapoints\n2.Select from Datapoints"))
-        print choice
         if(choice == 1 or choice ==2):
             break;
         else:
@@ -24,7 +23,7 @@ def initialRepresentative(allDatapoints,k):
     elif(choice == 2):
         while True:
             displayDatapoints(allDatapoints)
-            x=raw_input("Enter ',' separated index of"+ str(k) +" data points")
+            x=raw_input("Enter ',' separated index of"+ str(k) +" data points: ")
             index = map(int,x.split(','))
             set_index = set(index)
             flag = False
@@ -39,8 +38,8 @@ def initialRepresentative(allDatapoints,k):
                     representatives.append(allDatapoints[i - 1])
                 break
             else:
-                print "Invalid input index of datapoints"
-    print representatives
+                print "Invalid input index"
+    print "Initial Seed Selected", representatives
     return representatives
 
 def checkConvergence(first, second):
@@ -79,7 +78,9 @@ def distance(X,Y,mode):
 
 def getClusters(allDatapoints,k,mode):
     S = initialRepresentative(allDatapoints,k)
+    iter = 0
     while True:
+        iter +=1
         clusterlist = []
         #dummylist = []
         for i in range(0, k):
@@ -102,4 +103,5 @@ def getClusters(allDatapoints,k,mode):
         oldS = S
         S = getnewRepresentative(clusterlist)
         if (checkConvergence(oldS,S) == True):
+            print "Iterations count: ",iter
             return clusterlist
