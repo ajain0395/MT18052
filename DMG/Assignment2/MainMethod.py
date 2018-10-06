@@ -19,7 +19,5 @@ if(x>2 or x<1 ):
     exit(0)
 
 list = RepresentativeClustering.getClusters(alldatapoints,k,x - 1)
-for i in range(0,len(list)):
-    print "cluster",i+1,
-    print list[i]
+RepresentativeClustering.printClusters(list)
 #print list

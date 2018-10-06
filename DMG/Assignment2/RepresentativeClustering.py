@@ -4,6 +4,13 @@ import ReadData
 import Distancefunctions
 from random import shuffle
 
+
+def printClusters(list):
+    print "Clusters Formed: "
+    for i in range(0, len(list)):
+        print "Cluster", i + 1,
+        print list[i]
+
 def displayDatapoints(allDatapoints):
     for i in range(0,len(allDatapoints)):
         print i+1, " ",allDatapoints[i]
@@ -65,22 +72,37 @@ def checkConvergence(first, second):
     return True
 
 
-def getithrepresentative(list):
+
+def getithrepresentativemedian(list):
+    ithrepresentative = []
+    if(len(list) > 0 and len(list)%2 == 0):
+        a = list[len(list)/2]
+        b = list[((len(list) / 2)-1)]
+        for i in range(len(a)):
+            ithrepresentative.append(float(a[i] + b[i])/2.0)
+    elif(len(list) >0 and len(list)%2 != 0):
+        for i  in range(0,len(list[len(list)/2])):
+            ithrepresentative.append(list[len(list)/2][i])
+    return ithrepresentative
+
+def getithrepresentativemean(list):
     ithrepresentative = []
     for col in range(0,len(list[0])):
         x = 0.0
         #print list[0]," + "
         for row in range(0,len(list)):
             x += list[row][col]
-        ithrepresentative.append(float(x/len(list)))
+        ithrepresentative.append(float(x/float(len(list))))
     return ithrepresentative
 
-def getnewRepresentative(clusterslist):
+def getnewRepresentative(clusterslist,mode):
     representatives = []
     for i in range(0,len(clusterslist)):
         #print clusterslist[i],"cluster",i," level 2"
-
-        representatives.append(getithrepresentative(clusterslist[i]))
+        if(mode == 0):
+            representatives.append(getithrepresentativemean(clusterslist[i]))
+        elif(mode == 1):
+            representatives.append(getithrepresentativemedian(clusterslist[i]))
     return representatives
 
 def distance(X,Y,mode):
@@ -116,8 +138,10 @@ def getClusters(allDatapoints,k,mode):
             clusterlist[index].append(allDatapoints[i])
             #print clusterlist[index],"cluster check level 1\n"
         oldS = S
-        S = getnewRepresentative(clusterlist)
+        print "\nRepresentatives: \n",oldS
+        printClusters(clusterlist)
+        S = getnewRepresentative(clusterlist,mode)
         if (checkConvergence(oldS,S) == True):
-            print "Iterations count: ",iter
+            print "\nIterations count: ",iter
             print "Converging Representative: ",S
             return clusterlist
