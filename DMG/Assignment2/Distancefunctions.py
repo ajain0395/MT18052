@@ -1,7 +1,6 @@
 #Ashish Jain MT18052
 import math
 
-
 #Euclidean distance function
 def euclidean_dis(a,b):
     x = 0.0

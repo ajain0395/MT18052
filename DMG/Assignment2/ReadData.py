@@ -9,7 +9,7 @@ def getData():
         else:
             break
     filepointer = open(filename, "r")
-    #filepointer = open("inputfile.txt", 'r')
+    #filepointer = open("input1.txt", 'r')
     list1 = []
     list2 = []
     alldatapoints = []

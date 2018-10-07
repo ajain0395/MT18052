@@ -5,6 +5,7 @@ import Distancefunctions
 from random import shuffle
 
 
+
 def printClusters(list):
     print "Clusters Formed: "
     for i in range(0, len(list)):
@@ -71,18 +72,32 @@ def checkConvergence(first, second):
                 return False
     return True
 
-
+def getjthfeature(list,index):
+    list.sort(key=lambda x: x[index])
+    a = 0.0
+    b = 0.0
+    res = 0.0
+    if (len(list) > 0 and len(list) % 2 == 0):
+        a = list[len(list) / 2][index]
+        #print a
+        b = list[((len(list) / 2) - 1)][index]
+        res = (a + b)/2
+    elif (len(list) > 0 and len(list) % 2 != 0):
+        res = list[len(list) / 2][index]
+    return res
 
 def getithrepresentativemedian(list):
     ithrepresentative = []
-    if(len(list) > 0 and len(list)%2 == 0):
+    for i in range(0,len(list[0])):
+        ithrepresentative.append(getjthfeature(list,i))
+    '''if(len(list) > 0 and len(list)%2 == 0):
         a = list[len(list)/2]
         b = list[((len(list) / 2)-1)]
         for i in range(len(a)):
             ithrepresentative.append(float(a[i] + b[i])/2.0)
     elif(len(list) >0 and len(list)%2 != 0):
         for i  in range(0,len(list[len(list)/2])):
-            ithrepresentative.append(list[len(list)/2][i])
+            ithrepresentative.append(list[len(list)/2][i])'''
     return ithrepresentative
 
 def getithrepresentativemean(list):
