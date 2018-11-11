@@ -3,52 +3,64 @@ import math
 import random
 
 def fx(x,u,sd):
-    pi2 = 1.0/(float(math.sqrt(2.0 * math.pi)) * sd)
+    pi2 = 1.0/((math.sqrt(2.0 * math.pi)) * sd)
     enum = 0 - math.pow(( x - u),2)
     eden = 2 * math.pow(sd,2)
     result = pi2 * math.exp(enum/eden)
     return result
 
 def classiftNB(testData):
+    global rlen,dlen
     global rMean
     global rStandardDeviation
     global dMean
     global dStandardDeviation
     labels = []
     for i in range(0,len(testData)):
-        rval = 0.0
-        dval = 0.0
+        rval = 1.0
+        dval = 1.0
         for j in range(0,len(testData[i]) -1):
-            rval += math.log10(fx(testData[i][j], rMean[j], rStandardDeviation[j]))
-            dval += math.log10(fx(testData[i][j], dMean[j], dStandardDeviation[j]))
-        if (rval < dval):
-            labels.append("D")
-        else:
+            rval *= (fx(testData[i][j], rMean[j], rStandardDeviation[j]))
+            dval *= (fx(testData[i][j], dMean[j], dStandardDeviation[j]))
+
+        rval *= (rlen / (rlen + dlen))
+        dval *= (dlen / (dlen + rlen))
+        print "hello ",rval,"\t",dval
+        if (rval > dval):
             labels.append("R")
+        else:
+            labels.append("D")
     return labels
 
 def valclassiftNB(testData):
+    global rlen
+    global dlen
     global rMean
     global rStandardDeviation
     global dMean
     global dStandardDeviation
     percent = 0.0
     for i in range(0,len(testData)):
-        rval = 0.0
-        dval = 0.0
+        rval = 1.0
+        dval = 1.0
         for j in range(0,len(testData[i]) -1):
-            rval += math.log(fx(testData[i][j], rMean[j], rStandardDeviation[j]))
-            dval += math.log(fx(testData[i][j], dMean[j], dStandardDeviation[j]))
+            rval *= (fx(testData[i][j], rMean[j], rStandardDeviation[j]))
+            dval *= (fx(testData[i][j], dMean[j], dStandardDeviation[j]))
         #print testData[i][len(testData[i]) -1],"\t",
         #print rval,"\t",dval
-        if (rval < dval):
-            if(testData[i][len(testData[i]) -1] == "D"):
-                percent += 1
-        else:
+        #print "hello ",rval,"\t",dval
+        rval *= (rlen/(rlen + dlen))
+        dval *= (dlen/(dlen + rlen))
+        #print "hello ",rval,"\t",dval,"\t",rlen,"\t",dlen
+        print
+        if (rval > dval):
             if(testData[i][len(testData[i]) -1] == "R"):
-                percent += 1
+                percent += 1.0
+        else:
+            if(testData[i][len(testData[i]) -1] == "D"):
+                percent += 1.0
     #print percent
-    print (percent/(len(testData))) * 100
+    print (percent/(len(testData))) * 100.0
 
 def meancol(trainData,index):
     sum = 0.0
@@ -61,6 +73,7 @@ def standardDeviadioncol(trainData,index,mean):
     for i in range (0,len(trainData)):
         sum += math.pow((trainData[i][index]  - mean),2)
     sum /= len(trainData)
+    #print len(trainData)
     y = math.sqrt(sum)
     if y == 0:
         return 1.0
@@ -84,10 +97,15 @@ def getclassR(allData):
 def trainNB(trainData):
     rData = getclassR(trainData)
     dData = getclassD(trainData)
-    global  rMean
+    global rlen
+    global dlen
+    global rMean
     global rStandardDeviation
     global dMean
     global dStandardDeviation
+    rlen = float(len(rData))
+    dlen = float(len(dData))
+    print rlen,"\t",dlen
     rMean = []
     rStandardDeviation = []
     dMean = []
@@ -115,9 +133,10 @@ def mergelist(lisoflis, ommit):
 def validation(allData,k):
     testSize = len(allData) / k
     random.shuffle(allData)
+    global rlen
+    global dlen
     dataSegments = []
     index = 0
-
     for i in range(0, k):
         dataSegments.append([])
         for j in range(0, testSize):
@@ -136,6 +155,8 @@ rMean = []
 rStandardDeviation = []
 dMean = []
 dStandardDeviation = []
+rlen = 0.0
+dlen = 0.0
 validation(allData,10)
 
 testData = ReadData.getDatatesting()
