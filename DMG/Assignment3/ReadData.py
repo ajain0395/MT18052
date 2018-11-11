@@ -1,4 +1,8 @@
-#Ashish Jain MT18052
+'''
+Ashish Jain
+MT18052
+Assignment 3
+'''
 import os.path
 
 def getDatawithlabels():
@@ -72,7 +76,7 @@ def getDatatesting():
             alldatapoints.append(datapoint)
     return alldatapoints
 def writeOutput(result):
-    filename = "output.txt"
+    filename = "labels.txt"
     filepointer = open(filename, "w")
     for i in result:
         filepointer.write(i)

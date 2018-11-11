@@ -1,37 +1,48 @@
+'''
+Ashish Jain
+MT18052
+Assignment 3
+'''
 import ReadData
 import math
 import random
 
+'''
+Linear Distribution
+'''
 def fx(x,u,sd):
     pi2 = 1.0/((math.sqrt(2.0 * math.pi)) * sd)
-    enum = 0 - math.pow(( x - u),2)
-    eden = 2 * math.pow(sd,2)
-    result = pi2 * math.exp(enum/eden)
+    enum = -((x - u) ** 2)
+    eden = 2.0 * float(sd ** 2)
+    result = float(pi2 * math.exp(enum/eden))
     return result
 
+'''
+classify test data
+'''
 def classiftNB(testData):
-    global rlen,dlen
+    global rlen
+    global dlen
     global rMean
     global rStandardDeviation
     global dMean
     global dStandardDeviation
-    labels = []
-    for i in range(0,len(testData)):
+    for i in range(0,1):
         rval = 1.0
         dval = 1.0
-        for j in range(0,len(testData[i]) -1):
-            rval *= (fx(testData[i][j], rMean[j], rStandardDeviation[j]))
-            dval *= (fx(testData[i][j], dMean[j], dStandardDeviation[j]))
-
-        rval *= (rlen / (rlen + dlen))
-        dval *= (dlen / (dlen + rlen))
-        print "hello ",rval,"\t",dval
+        for j in range(0,len(testData)):
+            rval *= (fx(testData[j], rMean[j], rStandardDeviation[j]))
+            dval *= (fx(testData[j], dMean[j], dStandardDeviation[j]))
+        rval *= rlen
+        dval *= dlen
         if (rval > dval):
-            labels.append("R")
+            return "R"
         else:
-            labels.append("D")
-    return labels
+            return "D"
 
+'''
+Validation classification
+'''
 def valclassiftNB(testData):
     global rlen
     global dlen
@@ -46,39 +57,42 @@ def valclassiftNB(testData):
         for j in range(0,len(testData[i]) -1):
             rval *= (fx(testData[i][j], rMean[j], rStandardDeviation[j]))
             dval *= (fx(testData[i][j], dMean[j], dStandardDeviation[j]))
-        #print testData[i][len(testData[i]) -1],"\t",
-        #print rval,"\t",dval
-        #print "hello ",rval,"\t",dval
-        rval *= (rlen/(rlen + dlen))
-        dval *= (dlen/(dlen + rlen))
-        #print "hello ",rval,"\t",dval,"\t",rlen,"\t",dlen
-        print
+        rval *= rlen
+        dval *= dlen
         if (rval > dval):
-            if(testData[i][len(testData[i]) -1] == "R"):
+            if(testData[i][len(testData[i]) -1] in "R"):
                 percent += 1.0
         else:
-            if(testData[i][len(testData[i]) -1] == "D"):
+            if(testData[i][len(testData[i]) -1] in "D"):
                 percent += 1.0
-    #print percent
-    print (percent/(len(testData))) * 100.0
+    return (percent/(len(testData))) * 100.0
 
+'''
+Calculate mean of feature
+'''
 def meancol(trainData,index):
     sum = 0.0
     for i in range (0,len(trainData)):
         sum += trainData[i][index]
-    return sum/len(trainData)
+    return float(sum/len(trainData))
 
+'''
+Calculate standard deviation of feature
+'''
 def standardDeviadioncol(trainData,index,mean):
     sum = 0.0
     for i in range (0,len(trainData)):
-        sum += math.pow((trainData[i][index]  - mean),2)
-    sum /= len(trainData)
-    #print len(trainData)
+        sum += float(math.pow((trainData[i][index]  - mean),2))
+    sum /= float(len(trainData))
     y = math.sqrt(sum)
-    if y == 0:
+    if y == 0.0:
         return 1.0
-    return y
+    else:
+        return y
 
+'''
+Separate Training data as per label
+'''
 def getclassD(allData):
     Ddatatmp = []
     for i in range( 0 , len(allData)):
@@ -93,7 +107,9 @@ def getclassR(allData):
             Rdatatmp.append(allData[i])
     return Rdatatmp
 
-
+'''
+Train Model according to datapoints passed
+'''
 def trainNB(trainData):
     rData = getclassR(trainData)
     dData = getclassD(trainData)
@@ -103,9 +119,8 @@ def trainNB(trainData):
     global rStandardDeviation
     global dMean
     global dStandardDeviation
-    rlen = float(len(rData))
-    dlen = float(len(dData))
-    print rlen,"\t",dlen
+    rlen = float(len(rData))/((len(trainData)))
+    dlen = float(len(dData))/((len(trainData)))
     rMean = []
     rStandardDeviation = []
     dMean = []
@@ -113,28 +128,31 @@ def trainNB(trainData):
     for i in range(0,len(rData[0]) -1):
         rMean.append(meancol(rData,i))
         rStandardDeviation.append(standardDeviadioncol(rData,i,rMean[i]))
-    for i in range(0,len(dData[0]) -1 ):
+    for i in range(0,len(dData[0]) -1):
         dMean.append(meancol(dData,i))
         dStandardDeviation.append(standardDeviadioncol(dData,i,dMean[i]))
-    #print rMean
 
+'''
+Merge chunks for validation
+'''
 def mergelist(lisoflis, ommit):
     lis = []
-    print ommit + 1
     for i in range(0,len(lisoflis)):
         if i == ommit:
             continue
         for j in range(len(lisoflis[i])):
             lis.append(lisoflis[i][j])
-    #print lis,"\n\n\n"
-    #print len(lis)
     return lis
 
+'''
+Validation k fold
+'''
 def validation(allData,k):
     testSize = len(allData) / k
     random.shuffle(allData)
     global rlen
     global dlen
+    avg = 0.0
     dataSegments = []
     index = 0
     for i in range(0, k):
@@ -142,43 +160,51 @@ def validation(allData,k):
         for j in range(0, testSize):
             dataSegments[i].append(allData[index])
             index += 1
-    # print dataSegments
     for i in range(0, k):
         trainNB(mergelist(dataSegments, i))
-        #print rMean
-        valclassiftNB(dataSegments[i])
+        avg += valclassiftNB(dataSegments[i])
+    print "Testing  Average: ",avg/k
 
+'''
+Read Data
+'''
 allData = ReadData.getDatawithlabels()
-
-
 rMean = []
 rStandardDeviation = []
 dMean = []
 dStandardDeviation = []
+
 rlen = 0.0
 dlen = 0.0
+'''
+Validation Start
+'''
 validation(allData,10)
-
+'''
+Validation End
+'''
 testData = ReadData.getDatatesting()
-#print testData
 trainNB(allData)
-res = classiftNB(testData)
+res = []
+'''
+Classify Test Data Start
+'''
+for x in testData:
+    res.append(classiftNB(x))
+'''
+Classify Test Data End
+'''
 rc = 0
 dc = 0
 for i in range(0,len(res)):
-    #print res[i]
-    if res[i] == "R":
+    if res[i] in "R":
         rc +=1
     else:
         dc +=1
 print "R count: ",rc,"\tD count: ",dc
-#print len(testData[0])
+'''
+Writing Result to File
+'''
 ReadData.writeOutput(res)
-'''print 'size of r',len(rData)
-print 'size of d',len(dData)'''
 
-'''print rMean
-print rStandardDeviation
-print '\n',dMean
-print  dStandardDeviation'''
 
